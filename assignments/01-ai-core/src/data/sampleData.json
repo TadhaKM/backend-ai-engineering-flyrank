@@ -1,0 +1,91 @@
+{
+  "projects": [
+    {
+      "id": "proj_orion",
+      "name": "Orion Search",
+      "status": "active",
+      "owner": "amelia",
+      "tags": ["search", "backend", "ai"],
+      "createdAt": "2026-01-12",
+      "description": "Vector + keyword hybrid search service for internal docs."
+    },
+    {
+      "id": "proj_atlas",
+      "name": "Atlas Billing",
+      "status": "active",
+      "owner": "rahul",
+      "tags": ["billing", "payments"],
+      "createdAt": "2026-02-03",
+      "description": "Usage-based billing and invoicing platform."
+    },
+    {
+      "id": "proj_nova",
+      "name": "Nova Onboarding",
+      "status": "paused",
+      "owner": "sofia",
+      "tags": ["frontend", "onboarding"],
+      "createdAt": "2025-11-20",
+      "description": "Guided onboarding flows for new tenants."
+    }
+  ],
+  "notes": [
+    {
+      "id": "note_1",
+      "projectId": "proj_orion",
+      "author": "amelia",
+      "text": "Reranking with a cross-encoder lifted precision but doubled p95 latency.",
+      "tags": ["performance", "search"],
+      "createdAt": "2026-03-01"
+    },
+    {
+      "id": "note_2",
+      "projectId": "proj_orion",
+      "author": "diego",
+      "text": "Chunk size of 512 tokens with 64 overlap gave the best recall in eval.",
+      "tags": ["rag", "eval"],
+      "createdAt": "2026-03-05"
+    },
+    {
+      "id": "note_3",
+      "projectId": "proj_atlas",
+      "author": "rahul",
+      "text": "Proration edge cases on mid-cycle plan upgrades need a dedicated test suite.",
+      "tags": ["billing", "testing"],
+      "createdAt": "2026-03-08"
+    },
+    {
+      "id": "note_4",
+      "projectId": "proj_nova",
+      "author": "sofia",
+      "text": "Onboarding paused pending the new design system rollout.",
+      "tags": ["onboarding", "blocked"],
+      "createdAt": "2026-02-28"
+    }
+  ],
+  "documents": [
+    {
+      "id": "doc_1",
+      "projectId": "proj_orion",
+      "title": "Orion Search Architecture",
+      "tag": "architecture",
+      "content": "Hybrid retrieval combines BM25 with dense vectors, fused via reciprocal rank fusion before an optional cross-encoder rerank.",
+      "updatedAt": "2026-03-02"
+    },
+    {
+      "id": "doc_2",
+      "projectId": "proj_atlas",
+      "title": "Billing Data Model",
+      "tag": "data-model",
+      "content": "Invoices reference line items; usage events aggregate hourly into metered quantities keyed by subscription.",
+      "updatedAt": "2026-03-09"
+    },
+    {
+      "id": "doc_3",
+      "projectId": "proj_orion",
+      "title": "Search Eval Playbook",
+      "tag": "eval",
+      "content": "Golden query set of 200 labelled pairs; report recall@10 and MRR per retrieval variant.",
+      "updatedAt": "2026-03-06"
+    }
+  ]
+}

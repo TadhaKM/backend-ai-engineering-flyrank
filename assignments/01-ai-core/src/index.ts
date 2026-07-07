@@ -1,18 +1,34 @@
 /**
- * Assignment 01 — AI Core.
+ * Assignment 01 — AI Core. Entrypoint.
  *
- * ⚠️  Scaffold only — the assignment is intentionally NOT implemented yet.
- *     This entrypoint exists so the folder is runnable and demonstrates the
- *     standard shape every assignment follows. Replace `main()` with the real
- *     implementation when the assignment begins.
+ * Loads + validates config, builds the logger and the dependency graph, then
+ * starts the HTTP server. All wiring lives in server.ts; this file only owns the
+ * `listen()` side effect.
  */
 import { createLogger } from '@flyrank/shared';
-
-const log = createLogger({ name: '01-ai-core' });
+import { loadConfig, redactConfig } from './config/index.ts';
+import { buildDependencies, createApp } from './server.ts';
 
 function main(): void {
-  log.info('Assignment 01 (AI Core) scaffold is running.', { status: 'not-implemented' });
-  // TODO: Implement Assignment 01 here.
+  const config = loadConfig();
+  const logger = createLogger({ name: '01-ai-core', level: config.server.logLevel });
+
+  const deps = buildDependencies(config, logger);
+  const app = createApp({ ...deps, logger });
+
+  const server = app.listen(config.server.port, () => {
+    logger.info('server.listening', {
+      port: config.server.port,
+      config: redactConfig(config),
+    });
+  });
+
+  const shutdown = (signal: string) => {
+    logger.info('server.shutdown', { signal });
+    server.close(() => process.exit(0));
+  };
+  process.on('SIGTERM', () => shutdown('SIGTERM'));
+  process.on('SIGINT', () => shutdown('SIGINT'));
 }
 
 main();

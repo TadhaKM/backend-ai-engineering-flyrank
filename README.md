@@ -193,9 +193,9 @@ tooling.
 
 Legend: 🟢 done · 🟡 in progress · ⚪ scaffolded / not started
 
-| #   | Assignment | Folder                                             | Status | Summary                       |
-| --- | ---------- | -------------------------------------------------- | ------ | ----------------------------- |
-| 01  | AI Core    | [`assignments/01-ai-core`](assignments/01-ai-core) | ⚪     | Foundational AI service (TBD) |
+| #   | Assignment | Folder                                             | Status | Summary                                                                 |
+| --- | ---------- | -------------------------------------------------- | ------ | ----------------------------------------------------------------------- |
+| 01  | AI Core    | [`assignments/01-ai-core`](assignments/01-ai-core) | 🟡     | Portkey gateway + Claude tool use, Zod-validated output, SQL guardrails |
 
 > When you start a new assignment, add a row here. Keep it newest-last so the
 > table reads as a timeline.
