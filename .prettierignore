@@ -1,0 +1,10 @@
+node_modules
+dist
+build
+coverage
+package-lock.json
+*.gitkeep
+
+# Templates contain placeholder tokens (e.g. __NUMBER__) that Prettier's
+# markdown formatter would mangle into bold text. They are copied, not run.
+templates/

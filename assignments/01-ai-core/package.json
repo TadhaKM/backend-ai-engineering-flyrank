@@ -1,0 +1,17 @@
+{
+  "name": "@flyrank/01-ai-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Assignment 01 — AI Core. Scaffolded; not yet implemented.",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@flyrank/shared": "*"
+  }
+}
