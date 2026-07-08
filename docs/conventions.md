@@ -4,9 +4,10 @@ Shared conventions keep 20+ assignments feeling like one coherent workspace.
 
 ## Naming
 
-- **Assignment folders:** `NN-slug` — two-digit number, kebab-case slug
-  (`02-rag`, `03-agents`). Numbers only increase.
-- **Package names:** `@flyrank/NN-slug` for assignments, `@flyrank/shared` for shared.
+- **Assignment folders:** `assignment-NN` by default — two-digit, zero-padded
+  (`assignment-02`, `assignment-03`). Numbers only increase. Use a topical
+  `NN-slug` name (e.g. `01-ai-core`) only when the assignment genuinely has one.
+- **Package names:** `@flyrank/<folder-name>` for assignments, `@flyrank/shared` for shared.
 - **Files:** kebab-case (`rate-limiter.ts`). Tests end in `.test.ts`.
 - **Types/interfaces:** `PascalCase`. **Variables/functions:** `camelCase`.
   **Constants:** `UPPER_SNAKE_CASE`.
@@ -50,7 +51,7 @@ Shared conventions keep 20+ assignments feeling like one coherent workspace.
 
 - Work on the `main` branch or a short-lived feature branch per assignment.
 - **Conventional-commit style** is encouraged:
-  `feat(02-rag): add retrieval pipeline`, `docs: update root progress table`,
+  `feat(assignment-02): add retrieval pipeline`, `docs: update root progress table`,
   `chore(shared): add retry helper`.
 - Scope commits to one assignment where possible; never bundle edits to multiple
   assignments in one commit unless they're genuinely related (e.g. a `shared/`

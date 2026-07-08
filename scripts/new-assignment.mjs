@@ -3,12 +3,15 @@
  * Scaffold a new assignment from templates/assignment/.
  *
  * Usage:
- *   npm run new:assignment -- <slug>     e.g. npm run new:assignment -- rag
- *   npm run new:assignment               (prompts for a slug interactively)
+ *   npm run new:assignment              -> assignments/assignment-02   (default)
+ *   npm run new:assignment -- rag       -> assignments/02-rag          (named)
+ *
+ * Default naming is `assignment-NN` (zero-padded, so folders keep sorting past
+ * 10). Pass a kebab-case name only when the assignment has a meaningful topic.
  *
  * It picks the next number automatically (highest existing + 1), copies the
- * template, and replaces the __NUMBER__ / __SLUG__ / __TITLE__ / __PACKAGE__
- * tokens. It never touches an existing assignment.
+ * template, and replaces the __NUMBER__ / __SLUG__ / __TITLE__ / __FOLDER__ /
+ * __PACKAGE__ tokens. It never touches an existing assignment.
  *
  * Zero dependencies — Node built-ins only.
  */
@@ -16,7 +19,6 @@ import { readdir, readFile, writeFile, mkdir, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createInterface } from 'node:readline/promises';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -38,13 +40,18 @@ function toTitle(slug) {
     .join(' ');
 }
 
-/** Highest existing assignment number, or 0 if none. */
+/**
+ * Highest existing assignment number, or 0 if none.
+ * Recognises BOTH folder conventions: `NN-slug` (e.g. `01-ai-core`) and the
+ * default `assignment-NN`. Missing the second form would make the generator
+ * re-use a number and collide.
+ */
 async function highestNumber() {
   const entries = await readdir(ASSIGNMENTS_DIR, { withFileTypes: true });
   let max = 0;
   for (const entry of entries) {
     if (!entry.isDirectory()) continue;
-    const match = /^(\d+)-/.exec(entry.name);
+    const match = /^(\d+)-/.exec(entry.name) ?? /^assignment-(\d+)$/.exec(entry.name);
     if (match) max = Math.max(max, Number(match[1]));
   }
   return max;
@@ -69,19 +76,6 @@ async function copyWithTokens(src, dest, tokens) {
   }
 }
 
-async function resolveSlug() {
-  const argSlug = process.argv[2];
-  if (argSlug) return argSlug.trim().toLowerCase();
-
-  if (!process.stdin.isTTY) {
-    fail('No slug provided. Usage: npm run new:assignment -- <slug>');
-  }
-  const rl = createInterface({ input: process.stdin, output: process.stdout });
-  const answer = await rl.question('Assignment slug (kebab-case, e.g. "rag"): ');
-  rl.close();
-  return answer.trim().toLowerCase();
-}
-
 async function main() {
   if (!existsSync(TEMPLATE_DIR)) {
     fail(`Template not found at ${relative(ROOT, TEMPLATE_DIR)}`);
@@ -90,30 +84,47 @@ async function main() {
     await mkdir(ASSIGNMENTS_DIR, { recursive: true });
   }
 
-  const slug = await resolveSlug();
-  if (!slug) fail('A slug is required.');
-  if (!SLUG_RE.test(slug)) {
-    fail(`Invalid slug "${slug}". Use lowercase letters, numbers, and single dashes.`);
+  const number = String((await highestNumber()) + 1).padStart(2, '0');
+  const named = process.argv[2]?.trim().toLowerCase();
+
+  let folderName;
+  let slug;
+  let title;
+
+  if (named) {
+    // Explicit topic name -> `NN-slug` (e.g. `02-rag`).
+    if (!SLUG_RE.test(named)) {
+      fail(`Invalid name "${named}". Use lowercase letters, numbers, and single dashes.`);
+    }
+    slug = named;
+    folderName = `${number}-${slug}`;
+    title = toTitle(slug);
+  } else {
+    // Default -> `assignment-NN`. __TITLE__ is the *topic*, and templates already
+    // render it as "Assignment NN — __TITLE__", so use a fill-me-in placeholder
+    // rather than repeating the number.
+    slug = `assignment-${number}`;
+    folderName = slug;
+    title = 'TBD';
   }
 
-  const number = String((await highestNumber()) + 1).padStart(2, '0');
-  const folderName = `${number}-${slug}`;
   const dest = join(ASSIGNMENTS_DIR, folderName);
-
   if (existsSync(dest)) {
     fail(`${relative(ROOT, dest)} already exists — never overwrite an assignment.`);
   }
 
   const tokens = {
+    // __FOLDER__ must be distinct from __NUMBER__/__SLUG__: under the default
+    // naming the folder is NOT `NN-slug`, so templates reference __FOLDER__.
+    __FOLDER__: folderName,
     __NUMBER__: number,
     __SLUG__: slug,
-    __TITLE__: toTitle(slug),
+    __TITLE__: title,
     __PACKAGE__: `@flyrank/${folderName}`,
   };
 
   await copyWithTokens(TEMPLATE_DIR, dest, tokens);
 
-  // Sanity check the copy produced files.
   const created = await stat(dest);
   if (!created.isDirectory()) fail('Copy failed unexpectedly.');
 

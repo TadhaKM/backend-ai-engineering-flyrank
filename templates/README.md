@@ -19,7 +19,8 @@ workspaces and from linting.
 ### 1. Automated (recommended)
 
 ```bash
-npm run new:assignment -- <slug>     # e.g. npm run new:assignment -- rag
+npm run new:assignment            # -> assignments/assignment-02   (default)
+npm run new:assignment -- rag     # -> assignments/02-rag          (named override)
 ```
 
 This copies [`assignment/`](assignment/), picks the next number automatically,
@@ -27,7 +28,7 @@ and replaces the template tokens. See [`../scripts/new-assignment.mjs`](../scrip
 
 ### 2. Manual
 
-1. Copy [`assignment/`](assignment/) to `../assignments/NN-slug/`.
+1. Copy [`assignment/`](assignment/) to `../assignments/assignment-NN/`.
 2. Replace the tokens below throughout the copied files.
 3. Update the root and `assignments/` progress tables.
 
@@ -36,9 +37,13 @@ and replaces the template tokens. See [`../scripts/new-assignment.mjs`](../scrip
 The files in [`assignment/`](assignment/) contain placeholder tokens the
 generator replaces. If you copy manually, replace them yourself:
 
-| Token         | Meaning                     | Example           |
-| ------------- | --------------------------- | ----------------- |
-| `__NUMBER__`  | Two-digit assignment number | `02`              |
-| `__SLUG__`    | Kebab-case slug             | `rag`             |
-| `__TITLE__`   | Human-readable title        | `RAG`             |
-| `__PACKAGE__` | Workspace package name      | `@flyrank/02-rag` |
+| Token         | Meaning                       | Example (default)             | Example (named)   |
+| ------------- | ----------------------------- | ----------------------------- | ----------------- |
+| `__FOLDER__`  | The folder name               | `assignment-02`               | `02-rag`          |
+| `__NUMBER__`  | Two-digit assignment number   | `02`                          | `02`              |
+| `__SLUG__`    | Kebab-case slug               | `assignment-02`               | `rag`             |
+| `__TITLE__`   | The topic (not the number)    | `TBD`                         | `RAG`             |
+| `__PACKAGE__` | Workspace package name        | `@flyrank/assignment-02`      | `@flyrank/02-rag` |
+
+> `__FOLDER__` exists because under the default naming the folder is **not**
+> `NN-slug` — templates must reference the folder directly, never `__NUMBER__-__SLUG__`.

@@ -5,7 +5,7 @@ grows. Copy [`assignment/`](assignment/) (or run `npm run new:assignment`) to ge
 this automatically.
 
 ```text
-assignments/NN-slug/
+assignments/assignment-NN/
 ├── README.md          # Goal, setup, how to run, notes  (required)
 ├── package.json       # Own scripts + dependencies       (required)
 ├── tsconfig.json      # Extends ../../tsconfig.json       (required)
@@ -37,4 +37,5 @@ assignments/NN-slug/
   _second_ assignment needs it — then import it as `@flyrank/shared`.
 - **Never import from a sibling assignment.**
 - **Two-digit, increasing numbers.** `01`, `02`, … `10`, `11`.
-- **Kebab-case slugs.** `02-rag`, `03-agents`, `04-auth`.
+- **Default name is `assignment-NN`.** `assignment-02`, `assignment-03`, …
+  Only use a topical `NN-slug` name (e.g. `01-ai-core`) when the assignment has one.

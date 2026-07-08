@@ -23,14 +23,14 @@ _How did you tackle it? Key design decisions._
 npm install
 
 # configure this assignment
-cd assignments/__NUMBER__-__SLUG__
+cd assignments/__FOLDER__
 cp .env.example .env      # then fill in real values
 ```
 
 ## Run
 
 ```bash
-# from assignments/__NUMBER__-__SLUG__
+# from assignments/__FOLDER__
 npm run dev        # watch mode
 npm start          # one-shot run
 npm test           # tests
@@ -40,7 +40,7 @@ npm run typecheck  # type-check
 ## Structure
 
 ```text
-__NUMBER__-__SLUG__/
+__FOLDER__/
 ├── README.md
 ├── package.json
 ├── tsconfig.json

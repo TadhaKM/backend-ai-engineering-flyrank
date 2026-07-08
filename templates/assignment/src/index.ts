@@ -5,7 +5,7 @@
  */
 import { createLogger } from '@flyrank/shared';
 
-const log = createLogger({ name: '__NUMBER__-__SLUG__' });
+const log = createLogger({ name: '__FOLDER__' });
 
 function main(): void {
   log.info('Assignment __NUMBER__ (__TITLE__) is running.');

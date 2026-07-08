@@ -1,31 +1,35 @@
 # Assignments
 
 Every internship assignment lives here as its **own self-contained folder**,
-named `NN-slug` (two-digit number + short kebab-case slug).
+named `assignment-NN` (zero-padded, so folders keep sorting past 10).
 
 ```text
 assignments/
 ├── 01-ai-core/      🟢  AI backend: Portkey gateway, Claude tool use, guardrails
-├── 02-rag/          (future)
-├── 03-agents/       (future)
-├── 04-auth/         (future)
-├── 05-streaming/    (future)
+├── assignment-02/   (future)
+├── assignment-03/   (future)
+├── assignment-04/   (future)
 └── ...
 ```
+
+> **Naming.** The default is `assignment-NN`. Only use a topical name when the
+> assignment genuinely has one — then it's `NN-slug` (e.g. `02-rag`), which is why
+> `01-ai-core` looks the way it does. `npm run new:assignment` picks the default;
+> pass a name to override: `npm run new:assignment -- rag`.
 
 ## The workflow (read this before starting new work)
 
 1. **Start a new folder — never edit an old one.**
    Run `npm run new:assignment` from the repo root, or copy
    [`../templates/assignment/`](../templates/assignment/) manually to
-   `assignments/NN-slug/`. Numbers only go up; the previous highest + 1.
+   `assignments/assignment-NN/`. Numbers only go up; the previous highest + 1.
 
 2. **Fill in the assignment.**
    Update its `README.md`, `package.json` `name`, and `.env.example`. Write code
    in `src/`, tests in `tests/`.
 
 3. **Keep it independent.**
-   An assignment must run on its own: `cd assignments/NN-slug && npm run dev`.
+   An assignment must run on its own: `cd assignments/assignment-NN && npm run dev`.
    Do **not** import from another assignment. If two assignments need the same
    code, promote it to [`../shared/`](../shared/) and import `@flyrank/shared`.
 
@@ -39,7 +43,7 @@ assignments/
 ## Anatomy of an assignment
 
 ```text
-NN-slug/
+assignment-NN/
 ├── README.md         # Goal, setup, how to run, notes
 ├── package.json      # Own dependencies + scripts (dev/start/test/typecheck)
 ├── tsconfig.json     # Extends the repo-root tsconfig

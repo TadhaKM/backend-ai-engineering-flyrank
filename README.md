@@ -113,18 +113,21 @@ npm run dev
 **The golden path (recommended):**
 
 ```bash
-npm run new:assignment
+npm run new:assignment            # -> assignments/assignment-02   (default)
+npm run new:assignment -- rag     # -> assignments/02-rag          (named override)
 ```
 
-The generator asks for a short slug (e.g. `rag`), picks the next number
-automatically, copies the template, and wires up the folder. See
-[`scripts/new-assignment.mjs`](scripts/new-assignment.mjs).
+The generator picks the next number automatically, copies the template, and wires
+up the folder. See [`scripts/new-assignment.mjs`](scripts/new-assignment.mjs).
+
+**Naming:** folders default to `assignment-NN` (zero-padded, so they keep sorting
+past 10). Give an assignment a topical `NN-slug` name only when it genuinely has
+one — that's why `01-ai-core` looks the way it does.
 
 **Manually (if you prefer):**
 
 1. Copy [`templates/assignment/`](templates/assignment/) to
-   `assignments/NN-slug/` — where `NN` is the **next unused number** and `slug`
-   is short and kebab-cased (`02-rag`, `03-agents`, …).
+   `assignments/assignment-NN/` — where `NN` is the **next unused number**.
 2. Update the new assignment's `README.md`, `package.json` (`name` field), and
    `.env.example`.
 3. Add a row to the [Progress](#progress) table below.
@@ -139,7 +142,7 @@ A full walkthrough lives in [`docs/adding-an-assignment.md`](docs/adding-an-assi
 These rules keep the workspace clean as it grows. **Follow them for every assignment.**
 
 1. **Never overwrite an existing assignment.** Old work is a record of progress — it stays.
-2. **Always create a new numbered folder** (`NN-slug`) for new work. Numbers only ever go up.
+2. **Always create a new numbered folder** (`assignment-NN`) for new work. Numbers only ever go up.
 3. **Preserve previous work.** No deleting or renaming completed assignments.
 4. **Keep every assignment independently runnable.** Someone should be able to `cd` into any assignment and run it without touching the others.
 5. **Assignments do not depend on other assignments.** If two need the same code, promote it to [`shared/`](shared/).
