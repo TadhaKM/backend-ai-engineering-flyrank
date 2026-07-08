@@ -6,16 +6,21 @@ this automatically.
 
 ```text
 assignments/week-NN/assignment-NN/
-├── README.md          # Goal, setup, how to run, notes  (required)
-├── package.json       # Own scripts + dependencies       (required)
-├── tsconfig.json      # Extends ../../tsconfig.json       (required)
-├── .env.example       # Documented env vars              (required)
+├── README.md          # How to run it, the API              (required)
+├── EXPLANATION.md     # What was built, why, what broke     (required)
+├── package.json       # Own scripts + dependencies          (required)
+├── tsconfig.json      # Extends ../../../tsconfig.json      (required)
+├── .env.example       # Documented env vars                 (required)
 ├── .env               # Real secrets — git-ignored, never committed
-├── src/               # Source code                      (required)
+├── src/               # Source code                         (required)
 │   └── index.ts       # Entrypoint
-└── tests/             # Vitest tests                     (required)
+└── tests/             # Vitest tests                        (required)
     └── *.test.ts
 ```
+
+The two docs serve different readers. `README.md` is reference material for someone
+running the project. `EXPLANATION.md` is a beginner-friendly walkthrough of the
+decisions, the trade-offs, the bugs hit, and how it was verified.
 
 ## Optional additions (add only when needed)
 

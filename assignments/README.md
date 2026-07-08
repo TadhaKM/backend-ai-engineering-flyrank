@@ -9,7 +9,8 @@ assignments/
 ├── week-01/
 │   └── assignment-01/   🟢  Minimal Express backend (two JSON endpoints)
 ├── week-02/
-│   └── assignment-02/   🟢  Auth backend (register, login, JWT, protected route)
+│   ├── assignment-02/   🟢  Auth backend (register, login, JWT, protected route)
+│   └── assignment-03/   🟢  Postgres in Docker (repository swap, volume, compose)
 ├── week-03/             (empty)
 │   ...
 └── week-10/             (empty)
@@ -49,8 +50,8 @@ assignments/
    code, promote it to [`../shared/`](../shared/) and import `@flyrank/shared`.
 
 4. **Document it.**
-   Every assignment carries its own README describing the goal, how to run it,
-   and what was learned.
+   Every assignment carries a `README.md` (how to run it) AND an `EXPLANATION.md`
+   (what was built, why, what went wrong) written for a beginner.
 
 5. **Record it.**
    Add a row to the Progress table in the [root README](../README.md#progress).
@@ -60,7 +61,8 @@ assignments/
 ```text
 week-NN/
 └── assignment-NN/
-    ├── README.md         # Goal, setup, how to run, notes
+    ├── README.md         # Reference: how to run it, the API, the structure
+    ├── EXPLANATION.md    # Walkthrough: what was built, why, what went wrong
     ├── package.json      # Own dependencies + scripts (dev/start/test/typecheck)
     ├── tsconfig.json     # Extends the repo-root tsconfig (../../../tsconfig.json)
     ├── .env.example      # Documented env vars (copy to .env — never commit .env)
@@ -68,8 +70,13 @@ week-NN/
     └── tests/            # Tests (Vitest)
 ```
 
-Simple assignments may drop what they don't need — `assignment-01` is plain JS with
-no env vars, so it has just `server.js`, `package.json`, and `.gitignore`.
+**Every assignment gets both docs.** `README.md` is for someone _running_ the project.
+`EXPLANATION.md` is a beginner-friendly account of the decisions, the trade-offs, the
+bugs hit, and how it was verified. Keep them distinct — don't repeat the README.
+
+Simple assignments may drop the code scaffolding they don't need — `assignment-01` is
+plain JS with no env vars, so it has just `server.js`, `package.json`, and `.gitignore`.
+The two docs are never optional.
 
 ## Rules recap
 
@@ -85,6 +92,7 @@ no env vars, so it has just `server.js`, `package.json`, and `.gitignore`.
 | --- | ---- | ----------------------- | ------ | ------------------------------------------------- |
 | 01  | 1    | Minimal Express backend | 🟢     | [`week-01/assignment-01`](week-01/assignment-01/) |
 | 02  | 2    | Authentication backend  | 🟢     | [`week-02/assignment-02`](week-02/assignment-02/) |
+| 03  | 2    | Postgres in Docker      | 🟢     | [`week-02/assignment-03`](week-02/assignment-03/) |
 
 Weeks 3–10 exist and are empty, ready to be filled.
 

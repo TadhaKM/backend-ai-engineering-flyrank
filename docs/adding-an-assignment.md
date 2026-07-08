@@ -57,6 +57,7 @@ npm run dev
 ## Then, for either option
 
 1. **Write the README** — goal, approach, how to run, notes.
+   1b. **Write EXPLANATION.md** — a beginner-friendly account of what you built and why.
 2. **Add dependencies** to the assignment's own `package.json` as needed.
 3. **Update the progress tables:**
    - root [`README.md`](../README.md#progress)
@@ -74,6 +75,7 @@ npm run dev
 - [ ] No existing assignment was modified
 - [ ] `package.json` `name` is `@flyrank/<folder-name>`
 - [ ] README describes goal + how to run
+- [ ] EXPLANATION.md written for a beginner (what, why, bugs hit, how verified)
 - [ ] `.env.example` documents any secrets; `.env` is not committed
 - [ ] Reused code comes from `@flyrank/shared`, not another assignment
 - [ ] Progress tables updated

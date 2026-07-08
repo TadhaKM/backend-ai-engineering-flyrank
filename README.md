@@ -203,10 +203,11 @@ tooling.
 
 Legend: 🟢 done · 🟡 in progress · ⚪ scaffolded / not started
 
-| #   | Week | Assignment              | Folder                                                                   | Status | Summary                                                |
-| --- | ---- | ----------------------- | ------------------------------------------------------------------------ | ------ | ------------------------------------------------------ |
-| 01  | 1    | Minimal Express backend | [`assignments/week-01/assignment-01`](assignments/week-01/assignment-01) | 🟢     | Express server on :3000 with two JSON endpoints        |
-| 02  | 2    | Authentication backend  | [`assignments/week-02/assignment-02`](assignments/week-02/assignment-02) | 🟢     | register + login, bcrypt hashing, JWT, protected route |
+| #   | Week | Assignment              | Folder                                                                   | Status | Summary                                                     |
+| --- | ---- | ----------------------- | ------------------------------------------------------------------------ | ------ | ----------------------------------------------------------- |
+| 01  | 1    | Minimal Express backend | [`assignments/week-01/assignment-01`](assignments/week-01/assignment-01) | 🟢     | Express server on :3000 with two JSON endpoints             |
+| 02  | 2    | Authentication backend  | [`assignments/week-02/assignment-02`](assignments/week-02/assignment-02) | 🟢     | register + login, bcrypt hashing, JWT, protected route      |
+| 03  | 2    | Postgres in Docker      | [`assignments/week-02/assignment-03`](assignments/week-02/assignment-03) | 🟢     | repository swap (memory → Postgres), docker compose, volume |
 
 > When you start a new assignment, add a row here. Keep it newest-last so the
 > table reads as a timeline.

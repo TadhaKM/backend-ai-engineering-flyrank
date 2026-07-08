@@ -1,0 +1,66 @@
+# docker compose up  -> starts Postgres, Redis, and the app together.
+#
+# Compose reads `.env` from this folder automatically, both to substitute
+# ${VARIABLES} below and (via env_file) to pass variables into the containers.
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      # THE VOLUME. Postgres writes its data here. A named volume outlives the
+      # container, so `docker compose down` + `up` keeps your rows.
+      # (`docker compose down -v` deletes the volume — that's how you reset.)
+      - pgdata:/var/lib/postgresql/data
+      # Runs once, the first time the volume is created.
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - '5432:5432' # exposed so you can psql into it from your host
+    healthcheck:
+      # "Is Postgres actually ready to accept queries?" — not just "is the process up".
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    # Stretch goal: not used by auth, but wired up and ready for Week 4 (caching).
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 2s
+      timeout: 3s
+      retries: 15
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      # Don't start the app until the database can answer queries, otherwise the
+      # app's first connection attempt races Postgres' startup and crashes.
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - .env # JWT_SECRET, etc.
+    environment:
+      # Inside the compose network, the database is reachable at the SERVICE NAME
+      # `db`, not localhost. This overrides whatever DATABASE_URL is in .env
+      # (which points at localhost, for when you run the app on your host).
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379
+      STORAGE: postgres
+      PORT: 3000
+    ports:
+      - '3000:3000'
+
+volumes:
+  pgdata:

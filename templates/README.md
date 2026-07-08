@@ -9,6 +9,7 @@ workspaces and from linting.
 | Path                                           | Use it for                                                          |
 | ---------------------------------------------- | ------------------------------------------------------------------- |
 | [`assignment/`](assignment/)                   | The full, ready-to-copy assignment skeleton (used by the generator) |
+| [`assignment/EXPLANATION.md`](assignment/EXPLANATION.md) | The beginner-facing walkthrough stub every assignment must fill in |
 | [`assignment-README.md`](assignment-README.md) | A standalone README template for a single assignment                |
 | [`project-README.md`](project-README.md)       | A README template for a larger, project-style assignment            |
 | [`env.example`](env.example)                   | A documented environment-variable starting point                    |

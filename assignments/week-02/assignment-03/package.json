@@ -1,0 +1,20 @@
+{
+  "name": "@flyrank/assignment-03",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Assignment 03 — Postgres in Docker: swap the in-memory store for a real repository.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.22.0",
+    "redis": "^6.1.0"
+  }
+}
