@@ -13,7 +13,7 @@ _How did you tackle it? Key design decisions._
 ## Tech / dependencies
 
 - TypeScript (ESM), run via `tsx`
-- [`@flyrank/shared`](../../shared/) for logging, config, and common helpers
+- [`@flyrank/shared`](../../../shared/) for logging, config, and common helpers
 - _Add assignment-specific dependencies here_
 
 ## Setup
@@ -23,14 +23,14 @@ _How did you tackle it? Key design decisions._
 npm install
 
 # configure this assignment
-cd assignments/__FOLDER__
+cd assignments/__WEEK__/__FOLDER__
 cp .env.example .env      # then fill in real values
 ```
 
 ## Run
 
 ```bash
-# from assignments/__FOLDER__
+# from assignments/__WEEK__/__FOLDER__
 npm run dev        # watch mode
 npm start          # one-shot run
 npm test           # tests

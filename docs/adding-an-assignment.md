@@ -32,7 +32,7 @@ After it runs:
 
 ```bash
 npm install                          # link the new workspace
-cd assignments/assignment-NN
+cd assignments/week-NN/assignment-NN
 cp .env.example .env
 npm run dev
 ```
@@ -42,7 +42,7 @@ npm run dev
 1. **Pick the number.** Look at `assignments/`, take the highest `NN`, add 1.
 2. **Copy the template:**
    ```bash
-   cp -r templates/assignment assignments/assignment-NN
+   cp -r templates/assignment assignments/week-NN/assignment-NN
    ```
 3. **Replace tokens** in every copied file:
    | Token         | Replace with                   |
@@ -63,7 +63,7 @@ npm run dev
    - [`assignments/README.md`](../assignments/README.md#index)
 4. **Verify it's healthy:**
    ```bash
-   npm run check --workspace assignments/assignment-NN   # or `npm run check` for everything
+   npm run check --workspace assignments/week-NN/assignment-NN   # or `npm run check` for everything
    ```
 5. **Commit the new folder on its own.** Don't mix it with edits to other
    assignments.

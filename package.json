@@ -10,7 +10,7 @@
   },
   "workspaces": [
     "shared",
-    "assignments/*",
+    "assignments/week-*/*",
     "extras/*"
   ],
   "scripts": {

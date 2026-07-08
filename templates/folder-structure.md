@@ -5,7 +5,7 @@ grows. Copy [`assignment/`](assignment/) (or run `npm run new:assignment`) to ge
 this automatically.
 
 ```text
-assignments/assignment-NN/
+assignments/week-NN/assignment-NN/
 ├── README.md          # Goal, setup, how to run, notes  (required)
 ├── package.json       # Own scripts + dependencies       (required)
 ├── tsconfig.json      # Extends ../../tsconfig.json       (required)

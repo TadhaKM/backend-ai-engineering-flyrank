@@ -3,14 +3,17 @@
  * Scaffold a new assignment from templates/assignment/.
  *
  * Usage:
- *   npm run new:assignment              -> assignments/assignment-02   (default)
- *   npm run new:assignment -- rag       -> assignments/02-rag          (named)
+ *   npm run new:assignment -- --week 2         -> assignments/week-02/assignment-02
+ *   npm run new:assignment -- --week 2 rag     -> assignments/week-02/02-rag
+ *
+ * `--week` is required: every assignment lives inside a week folder.
+ * Assignment numbers are a single global sequence across all weeks — the next
+ * number is (highest existing anywhere) + 1, so numbers are never reused.
  *
  * Default naming is `assignment-NN` (zero-padded, so folders keep sorting past
  * 10). Pass a kebab-case name only when the assignment has a meaningful topic.
  *
- * It picks the next number automatically (highest existing + 1), copies the
- * template, and replaces the __NUMBER__ / __SLUG__ / __TITLE__ / __FOLDER__ /
+ * Replaces the __WEEK__ / __FOLDER__ / __NUMBER__ / __SLUG__ / __TITLE__ /
  * __PACKAGE__ tokens. It never touches an existing assignment.
  *
  * Zero dependencies — Node built-ins only.
@@ -26,9 +29,19 @@ const TEMPLATE_DIR = join(ROOT, 'templates', 'assignment');
 const ASSIGNMENTS_DIR = join(ROOT, 'assignments');
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const WEEK_DIR_RE = /^week-(\d+)$/;
+
+const USAGE = [
+  'Usage:',
+  '  npm run new:assignment -- --week <n> [name]',
+  '',
+  'Examples:',
+  '  npm run new:assignment -- --week 2         -> assignments/week-02/assignment-02',
+  '  npm run new:assignment -- --week 2 rag     -> assignments/week-02/02-rag',
+].join('\n');
 
 function fail(message) {
-  console.error(`\n✖ ${message}\n`);
+  console.error(`\n✖ ${message}\n\n${USAGE}\n`);
   process.exit(1);
 }
 
@@ -40,19 +53,41 @@ function toTitle(slug) {
     .join(' ');
 }
 
+/** Parse `--week N` / `--week=N` plus an optional positional name. */
+function parseArgs(argv) {
+  let week;
+  let name;
+  for (let i = 0; i < argv.length; i += 1) {
+    const arg = argv[i];
+    if (arg === '--week') {
+      week = argv[i + 1];
+      i += 1;
+    } else if (arg.startsWith('--week=')) {
+      week = arg.slice('--week='.length);
+    } else if (!arg.startsWith('-') && name === undefined) {
+      name = arg;
+    }
+  }
+  return { week, name };
+}
+
 /**
- * Highest existing assignment number, or 0 if none.
- * Recognises BOTH folder conventions: `NN-slug` (e.g. `01-ai-core`) and the
- * default `assignment-NN`. Missing the second form would make the generator
- * re-use a number and collide.
+ * Highest assignment number across EVERY week, or 0 if none.
+ * Numbers are a single global sequence, so this must look inside each
+ * `week-NN/` folder — a top-level scan would silently reuse numbers.
+ * Recognises both `NN-slug` and `assignment-NN` folder names.
  */
 async function highestNumber() {
-  const entries = await readdir(ASSIGNMENTS_DIR, { withFileTypes: true });
+  const weeks = await readdir(ASSIGNMENTS_DIR, { withFileTypes: true });
   let max = 0;
-  for (const entry of entries) {
-    if (!entry.isDirectory()) continue;
-    const match = /^(\d+)-/.exec(entry.name) ?? /^assignment-(\d+)$/.exec(entry.name);
-    if (match) max = Math.max(max, Number(match[1]));
+  for (const week of weeks) {
+    if (!week.isDirectory() || !WEEK_DIR_RE.test(week.name)) continue;
+    const entries = await readdir(join(ASSIGNMENTS_DIR, week.name), { withFileTypes: true });
+    for (const entry of entries) {
+      if (!entry.isDirectory()) continue;
+      const match = /^(\d+)-/.exec(entry.name) ?? /^assignment-(\d+)$/.exec(entry.name);
+      if (match) max = Math.max(max, Number(match[1]));
+    }
   }
   return max;
 }
@@ -84,19 +119,29 @@ async function main() {
     await mkdir(ASSIGNMENTS_DIR, { recursive: true });
   }
 
+  const { week: weekArg, name: named } = parseArgs(process.argv.slice(2));
+
+  if (!weekArg) fail('Missing required --week <n>.');
+  if (!/^\d{1,2}$/.test(weekArg) || Number(weekArg) < 1) {
+    fail(`Invalid week "${weekArg}". Use a number, e.g. --week 2.`);
+  }
+  const weekName = `week-${String(Number(weekArg)).padStart(2, '0')}`;
+  const weekDir = join(ASSIGNMENTS_DIR, weekName);
+  await mkdir(weekDir, { recursive: true }); // harmless if it already exists
+
   const number = String((await highestNumber()) + 1).padStart(2, '0');
-  const named = process.argv[2]?.trim().toLowerCase();
 
   let folderName;
   let slug;
   let title;
 
-  if (named) {
+  if (named !== undefined) {
     // Explicit topic name -> `NN-slug` (e.g. `02-rag`).
-    if (!SLUG_RE.test(named)) {
+    const lowered = named.trim().toLowerCase();
+    if (!SLUG_RE.test(lowered)) {
       fail(`Invalid name "${named}". Use lowercase letters, numbers, and single dashes.`);
     }
-    slug = named;
+    slug = lowered;
     folderName = `${number}-${slug}`;
     title = toTitle(slug);
   } else {
@@ -108,14 +153,15 @@ async function main() {
     title = 'TBD';
   }
 
-  const dest = join(ASSIGNMENTS_DIR, folderName);
+  const dest = join(weekDir, folderName);
   if (existsSync(dest)) {
     fail(`${relative(ROOT, dest)} already exists — never overwrite an assignment.`);
   }
 
   const tokens = {
-    // __FOLDER__ must be distinct from __NUMBER__/__SLUG__: under the default
-    // naming the folder is NOT `NN-slug`, so templates reference __FOLDER__.
+    // __WEEK__ / __FOLDER__ must be distinct from __NUMBER__/__SLUG__: templates
+    // can't compose the path, since the folder is not always `NN-slug`.
+    __WEEK__: weekName,
     __FOLDER__: folderName,
     __NUMBER__: number,
     __SLUG__: slug,
@@ -128,10 +174,11 @@ async function main() {
   const created = await stat(dest);
   if (!created.isDirectory()) fail('Copy failed unexpectedly.');
 
-  console.log(`\n✔ Created assignments/${folderName}\n`);
+  const rel = `assignments/${weekName}/${folderName}`;
+  console.log(`\n✔ Created ${rel}\n`);
   console.log('Next steps:');
   console.log('  1. npm install                      # link the new workspace');
-  console.log(`  2. cd assignments/${folderName}`);
+  console.log(`  2. cd ${rel}`);
   console.log('  3. cp .env.example .env             # then fill in real values');
   console.log('  4. npm run dev');
   console.log("\nDon't forget to add a row to the progress tables in");

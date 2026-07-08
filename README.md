@@ -52,13 +52,15 @@ backend-ai-engineering-flyrank/
 ├── .prettierrc               # Formatting rules
 ├── .editorconfig             # Editor defaults
 │
-├── assignments/              # ⭐ Every assignment is a numbered folder in here
+├── assignments/              # ⭐ Assignments, grouped into week-01 … week-10
 │   ├── README.md             #    Index + the assignment workflow
-│   └── assignment-01/        #    Assignment 01 — minimal Express backend
-│       ├── README.md
-│       ├── server.js
-│       ├── package.json
-│       └── .gitignore
+│   ├── week-01/
+│   │   └── assignment-01/    #    Assignment 01 — minimal Express backend
+│   │       ├── README.md
+│   │       ├── server.js
+│   │       ├── package.json
+│   │       └── .gitignore
+│   └── week-02/ … week-10/   #    Empty, ready to be filled
 │
 ├── extras/                   # Non-assignment projects (practice builds, spikes)
 │   └── 01-ai-core/           #    AI backend: Portkey gateway, Claude tool use, guardrails
@@ -88,7 +90,7 @@ npm install
 npm run check          # format check + lint + typecheck + tests
 
 # 3. Work inside a single assignment
-cd assignments/assignment-01
+cd assignments/week-01/assignment-01
 npm start              # (assignments that need secrets: cp .env.example .env first)
 ```
 
@@ -104,7 +106,7 @@ npm start              # (assignments that need secrets: cp .env.example .env fi
 | `npm run check`          | Everything above — the same gate CI runs             |
 
 > Any script can be scoped to one workspace:
-> `npm start --workspace assignments/assignment-01`
+> `npm start --workspace assignments/week-01/assignment-01`
 
 ---
 
@@ -113,12 +115,16 @@ npm start              # (assignments that need secrets: cp .env.example .env fi
 **The golden path (recommended):**
 
 ```bash
-npm run new:assignment            # -> assignments/assignment-02   (default)
-npm run new:assignment -- rag     # -> assignments/02-rag          (named override)
+npm run new:assignment -- --week 2         # -> assignments/week-02/assignment-02
+npm run new:assignment -- --week 2 rag     # -> assignments/week-02/02-rag
 ```
 
-The generator picks the next number automatically, copies the template, and wires
-up the folder. See [`scripts/new-assignment.mjs`](scripts/new-assignment.mjs).
+`--week` is required — every assignment lives inside a week folder. The generator
+picks the next number automatically, copies the template, and wires up the folder.
+See [`scripts/new-assignment.mjs`](scripts/new-assignment.mjs).
+
+**Numbering:** assignment numbers are a **single global sequence across all weeks**,
+so they're never reused. Weeks just group them.
 
 **Naming:** folders default to `assignment-NN` (zero-padded, so they keep sorting
 past 10). Give an assignment a topical `NN-slug` name only when it genuinely has
@@ -127,7 +133,7 @@ one.
 **Manually (if you prefer):**
 
 1. Copy [`templates/assignment/`](templates/assignment/) to
-   `assignments/assignment-NN/` — where `NN` is the **next unused number**.
+   `assignments/week-NN/assignment-NN/` — where the assignment `NN` is the **next unused number** across all weeks.
 2. Update the new assignment's `README.md`, `package.json` (`name` field), and
    `.env.example`.
 3. Add a row to the [Progress](#progress) table below.
@@ -196,9 +202,9 @@ tooling.
 
 Legend: 🟢 done · 🟡 in progress · ⚪ scaffolded / not started
 
-| #   | Assignment              | Folder                                                   | Status | Summary                                         |
-| --- | ----------------------- | -------------------------------------------------------- | ------ | ----------------------------------------------- |
-| 01  | Minimal Express backend | [`assignments/assignment-01`](assignments/assignment-01) | 🟢     | Express server on :3000 with two JSON endpoints |
+| #   | Week | Assignment              | Folder                                                                   | Status | Summary                                         |
+| --- | ---- | ----------------------- | ------------------------------------------------------------------------ | ------ | ----------------------------------------------- |
+| 01  | 1    | Minimal Express backend | [`assignments/week-01/assignment-01`](assignments/week-01/assignment-01) | 🟢     | Express server on :3000 with two JSON endpoints |
 
 > When you start a new assignment, add a row here. Keep it newest-last so the
 > table reads as a timeline.

@@ -18,7 +18,8 @@ isolation — like a portfolio piece. The structure optimises for:
 ```text
 root (dev tooling: TS, ESLint, Prettier, Vitest)
 ├── shared/            → package @flyrank/shared
-└── assignments/*      → one package per assignment
+├── assignments/week-*/*  → one package per assignment (grouped by week)
+└── extras/*              → non-assignment projects
 ```
 
 **Why workspaces?**
@@ -59,7 +60,7 @@ quality standards are uniform and set in exactly one place.
 - `shared/` has no assignment-specific logic and minimal dependencies, since it's
   imported everywhere.
 
-This gives a clear dependency graph: `assignments/* → shared`, and nothing else.
+This gives a clear dependency graph: `assignments/week-*/* → shared`, and nothing else.
 
 ## Consistency machinery
 
