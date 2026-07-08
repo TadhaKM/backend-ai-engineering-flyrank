@@ -8,7 +8,8 @@ week, and every assignment is its **own self-contained folder** named
 assignments/
 ├── week-01/
 │   └── assignment-01/   🟢  Minimal Express backend (two JSON endpoints)
-├── week-02/             (empty)
+├── week-02/
+│   └── assignment-02/   🟢  Auth backend (register, login, JWT, protected route)
 ├── week-03/             (empty)
 │   ...
 └── week-10/             (empty)
@@ -83,7 +84,8 @@ no env vars, so it has just `server.js`, `package.json`, and `.gitignore`.
 | #   | Week | Assignment              | Status | Folder                                            |
 | --- | ---- | ----------------------- | ------ | ------------------------------------------------- |
 | 01  | 1    | Minimal Express backend | 🟢     | [`week-01/assignment-01`](week-01/assignment-01/) |
+| 02  | 2    | Authentication backend  | 🟢     | [`week-02/assignment-02`](week-02/assignment-02/) |
 
-Weeks 2–10 exist and are empty, ready to be filled.
+Weeks 3–10 exist and are empty, ready to be filled.
 
 _Legend: 🟢 done · 🟡 in progress · ⚪ scaffolded / not started_

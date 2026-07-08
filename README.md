@@ -56,11 +56,12 @@ backend-ai-engineering-flyrank/
 │   ├── README.md             #    Index + the assignment workflow
 │   ├── week-01/
 │   │   └── assignment-01/    #    Assignment 01 — minimal Express backend
-│   │       ├── README.md
+│   ├── week-02/
+│   │   └── assignment-02/    #    Assignment 02 — auth: bcrypt, JWT, protected route
 │   │       ├── server.js
-│   │       ├── package.json
-│   │       └── .gitignore
-│   └── week-02/ … week-10/   #    Empty, ready to be filled
+│   │       ├── routes/auth.js
+│   │       └── middleware/auth.js
+│   └── week-03/ … week-10/   #    Empty, ready to be filled
 │
 ├── extras/                   # Non-assignment projects (practice builds, spikes)
 │   └── 01-ai-core/           #    AI backend: Portkey gateway, Claude tool use, guardrails
@@ -202,9 +203,10 @@ tooling.
 
 Legend: 🟢 done · 🟡 in progress · ⚪ scaffolded / not started
 
-| #   | Week | Assignment              | Folder                                                                   | Status | Summary                                         |
-| --- | ---- | ----------------------- | ------------------------------------------------------------------------ | ------ | ----------------------------------------------- |
-| 01  | 1    | Minimal Express backend | [`assignments/week-01/assignment-01`](assignments/week-01/assignment-01) | 🟢     | Express server on :3000 with two JSON endpoints |
+| #   | Week | Assignment              | Folder                                                                   | Status | Summary                                                |
+| --- | ---- | ----------------------- | ------------------------------------------------------------------------ | ------ | ------------------------------------------------------ |
+| 01  | 1    | Minimal Express backend | [`assignments/week-01/assignment-01`](assignments/week-01/assignment-01) | 🟢     | Express server on :3000 with two JSON endpoints        |
+| 02  | 2    | Authentication backend  | [`assignments/week-02/assignment-02`](assignments/week-02/assignment-02) | 🟢     | register + login, bcrypt hashing, JWT, protected route |
 
 > When you start a new assignment, add a row here. Keep it newest-last so the
 > table reads as a timeline.
