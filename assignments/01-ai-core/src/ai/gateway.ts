@@ -42,22 +42,29 @@ export function createGatewayClient(config: AppConfig): Anthropic {
   if (!portkey.apiKey) {
     throw new ConfigError('PORTKEY_API_KEY is not set — cannot reach the AI gateway.');
   }
-  const hasVirtualKey = Boolean(portkey.virtualKey);
-  if (!hasVirtualKey && !anthropicApiKey) {
-    throw new ConfigError('No provider credential: set PORTKEY_VIRTUAL_KEY or ANTHROPIC_API_KEY.');
+
+  // A "saved integration" is either a Portkey virtual key or a provider slug
+  // (`@your-integration`). Workspaces with `block_inline_config` enabled REQUIRE
+  // one of these and reject a bare provider name + raw key.
+  const usingSavedIntegration = Boolean(portkey.virtualKey) || portkey.provider.startsWith('@');
+  if (!usingSavedIntegration && !anthropicApiKey) {
+    throw new ConfigError(
+      'No provider credential. Set ANTHROPIC_API_KEY (inline mode), or use a saved Portkey ' +
+        'integration: PORTKEY_VIRTUAL_KEY=<vk>, or PORTKEY_PROVIDER=@<integration-slug>.',
+    );
   }
 
-  const headers = createHeaders({
-    apiKey: portkey.apiKey,
-    provider: portkey.provider,
-    ...(portkey.virtualKey ? { virtualKey: portkey.virtualKey } : {}),
-  });
+  // Only "inline" mode sends a bare provider name; virtual key / @slug are passed
+  // through as-is so a `block_inline_config` workspace accepts them.
+  const headers = portkey.virtualKey
+    ? createHeaders({ apiKey: portkey.apiKey, virtualKey: portkey.virtualKey })
+    : createHeaders({ apiKey: portkey.apiKey, provider: portkey.provider });
 
   return new Anthropic({
-    // With a Portkey virtual key, the provider credential lives in Portkey; the
-    // Anthropic SDK still needs a non-empty apiKey to construct. Auth is carried
-    // by the Portkey headers regardless.
-    apiKey: anthropicApiKey ?? 'via-portkey-virtual-key',
+    // Auth is carried by the Portkey headers / saved integration. The Anthropic
+    // SDK still needs a non-empty apiKey to construct; a placeholder is fine when
+    // the real credential lives in Portkey.
+    apiKey: anthropicApiKey ?? 'via-portkey-integration',
     baseURL: portkey.baseUrl || PORTKEY_GATEWAY_URL,
     defaultHeaders: headers,
   });
