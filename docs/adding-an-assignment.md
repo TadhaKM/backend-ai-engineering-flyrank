@@ -7,7 +7,7 @@ edit or overwrite an existing one.
 
 The **default** is `assignment-NN` (zero-padded, so folders keep sorting past 10).
 Only give an assignment a topical name when it genuinely has one — then it's
-`NN-slug` (which is why `01-ai-core` looks the way it does).
+`NN-slug` (e.g. `02-rag`).
 
 ## Option A — the generator (recommended)
 

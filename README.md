@@ -54,13 +54,16 @@ backend-ai-engineering-flyrank/
 │
 ├── assignments/              # ⭐ Every assignment is a numbered folder in here
 │   ├── README.md             #    Index + the assignment workflow
-│   └── 01-ai-core/           #    Assignment 01 (scaffolded — not yet implemented)
+│   └── assignment-01/        #    Assignment 01 (scaffolded — awaiting brief)
 │       ├── README.md
 │       ├── src/
 │       ├── tests/
 │       ├── package.json
 │       ├── tsconfig.json
 │       └── .env.example
+│
+├── extras/                   # Non-assignment projects (practice builds, spikes)
+│   └── 01-ai-core/           #    AI backend: Portkey gateway, Claude tool use, guardrails
 │
 ├── shared/                   # Reusable code ONLY (logger, config, types, helpers)
 │
@@ -87,7 +90,7 @@ npm install
 npm run check          # format check + lint + typecheck + tests
 
 # 3. Work inside a single assignment
-cd assignments/01-ai-core
+cd assignments/assignment-01
 cp .env.example .env   # then fill in your secrets
 npm run dev
 ```
@@ -104,7 +107,7 @@ npm run dev
 | `npm run check`          | Everything above — the same gate CI runs             |
 
 > Any script can be scoped to one assignment:
-> `npm run test --workspace assignments/01-ai-core`
+> `npm run test --workspace assignments/assignment-01`
 
 ---
 
@@ -122,7 +125,7 @@ up the folder. See [`scripts/new-assignment.mjs`](scripts/new-assignment.mjs).
 
 **Naming:** folders default to `assignment-NN` (zero-padded, so they keep sorting
 past 10). Give an assignment a topical `NN-slug` name only when it genuinely has
-one — that's why `01-ai-core` looks the way it does.
+one.
 
 **Manually (if you prefer):**
 
@@ -196,12 +199,21 @@ tooling.
 
 Legend: 🟢 done · 🟡 in progress · ⚪ scaffolded / not started
 
-| #   | Assignment | Folder                                             | Status | Summary                                                                 |
-| --- | ---------- | -------------------------------------------------- | ------ | ----------------------------------------------------------------------- |
-| 01  | AI Core    | [`assignments/01-ai-core`](assignments/01-ai-core) | 🟢     | Portkey gateway + Claude tool use, Zod-validated output, SQL guardrails |
+| #   | Assignment | Folder                                                   | Status | Summary            |
+| --- | ---------- | -------------------------------------------------------- | ------ | ------------------ |
+| 01  | TBD        | [`assignments/assignment-01`](assignments/assignment-01) | ⚪     | Awaiting the brief |
 
 > When you start a new assignment, add a row here. Keep it newest-last so the
 > table reads as a timeline.
+
+### Extras
+
+Non-assignment projects live in [`extras/`](extras/) and are excluded from the
+numbered sequence above.
+
+| Project                                  | Status | Summary                                                                 |
+| ---------------------------------------- | ------ | ----------------------------------------------------------------------- |
+| [`extras/01-ai-core`](extras/01-ai-core) | 🟢     | Portkey gateway + Claude tool use, Zod-validated output, SQL guardrails |
 
 ---
 

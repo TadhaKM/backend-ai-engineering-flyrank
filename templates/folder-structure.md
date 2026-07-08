@@ -38,4 +38,4 @@ assignments/assignment-NN/
 - **Never import from a sibling assignment.**
 - **Two-digit, increasing numbers.** `01`, `02`, … `10`, `11`.
 - **Default name is `assignment-NN`.** `assignment-02`, `assignment-03`, …
-  Only use a topical `NN-slug` name (e.g. `01-ai-core`) when the assignment has one.
+  Only use a topical `NN-slug` name (e.g. `02-rag`) when the assignment has one.

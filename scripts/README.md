@@ -19,7 +19,7 @@ npm run new:assignment -- rag     # -> assignments/02-rag          (named overri
 
 **Naming:** the default is `assignment-NN` (zero-padded, so folders keep sorting
 past 10). Pass a kebab-case name only when the assignment has a meaningful topic —
-that produces `NN-slug`, the form `01-ai-core` uses.
+that produces `NN-slug`, e.g. `02-rag`.
 
 The next-number scan understands **both** folder conventions, so numbering stays
 correct however you mix them.

@@ -10,7 +10,8 @@
   },
   "workspaces": [
     "shared",
-    "assignments/*"
+    "assignments/*",
+    "extras/*"
   ],
   "scripts": {
     "new:assignment": "node scripts/new-assignment.mjs",

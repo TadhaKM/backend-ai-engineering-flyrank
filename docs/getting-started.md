@@ -35,14 +35,14 @@ whenever dependencies change.
 Scope any command to a single workspace with `--workspace`:
 
 ```bash
-npm run dev  --workspace assignments/01-ai-core
-npm test     --workspace assignments/01-ai-core
+npm run dev  --workspace assignments/assignment-01
+npm test     --workspace assignments/assignment-01
 ```
 
 …or just `cd` into it and use its local scripts:
 
 ```bash
-cd assignments/01-ai-core
+cd assignments/assignment-01
 cp .env.example .env      # then fill in your values
 npm run dev
 ```

@@ -5,17 +5,19 @@ named `assignment-NN` (zero-padded, so folders keep sorting past 10).
 
 ```text
 assignments/
-├── 01-ai-core/      🟢  AI backend: Portkey gateway, Claude tool use, guardrails
+├── assignment-01/   ⚪  (not started)
 ├── assignment-02/   (future)
 ├── assignment-03/   (future)
-├── assignment-04/   (future)
 └── ...
 ```
 
 > **Naming.** The default is `assignment-NN`. Only use a topical name when the
-> assignment genuinely has one — then it's `NN-slug` (e.g. `02-rag`), which is why
-> `01-ai-core` looks the way it does. `npm run new:assignment` picks the default;
-> pass a name to override: `npm run new:assignment -- rag`.
+> assignment genuinely has one — then it's `NN-slug` (e.g. `02-rag`).
+> `npm run new:assignment` picks the default; pass a name to override:
+> `npm run new:assignment -- rag`.
+
+> Non-assignment work (practice builds, spikes) lives in [`../extras/`](../extras/),
+> not here.
 
 ## The workflow (read this before starting new work)
 
@@ -62,8 +64,8 @@ assignment-NN/
 
 ## Index
 
-| #   | Assignment | Status | Folder                      |
-| --- | ---------- | ------ | --------------------------- |
-| 01  | AI Core    | 🟢     | [`01-ai-core`](01-ai-core/) |
+| #   | Assignment | Status | Folder                            |
+| --- | ---------- | ------ | --------------------------------- |
+| 01  | TBD        | ⚪     | [`assignment-01`](assignment-01/) |
 
 _Legend: 🟢 done · 🟡 in progress · ⚪ scaffolded / not started_

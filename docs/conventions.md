@@ -6,7 +6,7 @@ Shared conventions keep 20+ assignments feeling like one coherent workspace.
 
 - **Assignment folders:** `assignment-NN` by default — two-digit, zero-padded
   (`assignment-02`, `assignment-03`). Numbers only increase. Use a topical
-  `NN-slug` name (e.g. `01-ai-core`) only when the assignment genuinely has one.
+  `NN-slug` name (e.g. `02-rag`) only when the assignment genuinely has one.
 - **Package names:** `@flyrank/<folder-name>` for assignments, `@flyrank/shared` for shared.
 - **Files:** kebab-case (`rate-limiter.ts`). Tests end in `.test.ts`.
 - **Types/interfaces:** `PascalCase`. **Variables/functions:** `camelCase`.

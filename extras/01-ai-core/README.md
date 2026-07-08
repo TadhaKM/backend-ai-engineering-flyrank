@@ -126,7 +126,7 @@ npm install
 Then configure this assignment:
 
 ```bash
-cd assignments/01-ai-core
+cd extras/01-ai-core
 cp .env.example .env
 ```
 
@@ -150,7 +150,7 @@ See [Configuration](#configuration-step-9) for every variable.
 ## Running it
 
 ```bash
-# from assignments/01-ai-core
+# from extras/01-ai-core
 npm run dev        # watch mode (tsx)
 npm start          # one-shot
 npm test           # vitest
