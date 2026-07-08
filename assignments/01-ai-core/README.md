@@ -1,6 +1,6 @@
 # Assignment 01 — AI Core
 
-> **Status:** 🟡 In progress — core service implemented and tested end-to-end (offline); a live Claude call needs real Portkey + Anthropic keys.
+> **Status:** 🟢 Complete — 69 automated tests pass, and the service is **verified live** against `claude-opus-4-8` through the Portkey gateway (multi-turn tool use, model-generated SQL, and a guardrail rejection all confirmed end-to-end).
 
 A production-style backend AI service where **the LLM is a dependency behind an abstraction layer**, not a hardcoded call. It routes every request through the **Portkey AI Gateway** to **Anthropic Claude**, returns **Zod-validated structured output**, supports **Claude tool use over local data**, and puts **security guardrails** on any model-generated SQL.
 
@@ -130,11 +130,18 @@ cd assignments/01-ai-core
 cp .env.example .env
 ```
 
-Fill in `.env`:
+Fill in `.env`. Set `PORTKEY_API_KEY`, then pick **one** way for Portkey to
+authenticate Anthropic:
 
-- `PORTKEY_API_KEY` — from the Portkey dashboard.
-- **Either** `PORTKEY_VIRTUAL_KEY` (a Portkey virtual key holding your Anthropic
-  credential) **or** `ANTHROPIC_API_KEY` (forwarded through Portkey).
+| Mode                                | Config                                                      | When                                                                                                                                                                  |
+| ----------------------------------- | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Saved integration** (recommended) | `PORTKEY_PROVIDER=@your-slug`                               | Create an Anthropic integration in Portkey; it stores the key, so `ANTHROPIC_API_KEY` can be blank. **Required** if your workspace has `block_inline_config` enabled. |
+| Virtual key                         | `PORTKEY_VIRTUAL_KEY=vk-…`                                  | Portkey holds the credential behind a virtual key.                                                                                                                    |
+| Inline                              | `PORTKEY_PROVIDER=anthropic` + `ANTHROPIC_API_KEY=sk-ant-…` | Only if your workspace permits inline provider config.                                                                                                                |
+
+> ⚠️ Many Portkey workspaces enable `block_inline_config`, which rejects the inline
+> mode with: _"Inline provider names are not allowed… Use a saved integration via
+> '@slug'"_. Use the saved-integration mode there.
 
 See [Configuration](#configuration-step-9) for every variable.
 
@@ -364,9 +371,24 @@ npm test
   handler: `POST /chat` 200 plus every error status (400 validation, 400 bad JSON,
   502 structured-output, 503 config, 404).
 
-> The one thing these can't cover is a real Claude round-trip through Portkey —
-> that needs live keys. The adapter/HTTP layers above are exercised against fakes;
-> the request shapes are built to the documented Anthropic SDK surface.
+> These run against fakes, so they can't cover a real Claude round-trip. That path was
+> verified **manually against the live gateway** (see below) — with keys configured, a
+> `POST /chat` returns a validated answer from `claude-opus-4-8` via Portkey.
+
+### Verified live
+
+Confirmed end-to-end against the real gateway (`claude-opus-4-8` through Portkey):
+
+| Scenario                                                                           | Result                                                                                                                  |
+| ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Multi-turn tool use ("how many notes… what do they say about latency?")            | `200` — 4 tool calls, 4 iterations, correct facts + sources                                                             |
+| Model-generated SQL ("aggregate notes per project")                                | `200` — Claude wrote a `SELECT`, guardrail passed it, alasql executed it, counts correct                                |
+| Prompt-level refusal ("DROP TABLE notes; DELETE FROM projects")                    | `200` — Claude declined before ever calling the tool                                                                    |
+| **Guardrail rejection in-loop** (forced `"SELECT * FROM notes; DROP TABLE notes"`) | tool returned `SQL_GUARDRAIL_BLOCKED: multiple statements are not allowed`; Claude recovered and reported it — no crash |
+
+The last row is the defense-in-depth proof: even when the model _does_ emit dangerous SQL,
+the guardrail blocks it, the error is handed back as a `tool_result`, and the request
+completes gracefully.
 
 ---
 

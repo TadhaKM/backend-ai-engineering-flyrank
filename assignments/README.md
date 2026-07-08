@@ -5,7 +5,7 @@ named `NN-slug` (two-digit number + short kebab-case slug).
 
 ```text
 assignments/
-├── 01-ai-core/      🟡  AI backend: Portkey gateway, Claude tool use, guardrails
+├── 01-ai-core/      🟢  AI backend: Portkey gateway, Claude tool use, guardrails
 ├── 02-rag/          (future)
 ├── 03-agents/       (future)
 ├── 04-auth/         (future)
@@ -60,6 +60,6 @@ NN-slug/
 
 | #   | Assignment | Status | Folder                      |
 | --- | ---------- | ------ | --------------------------- |
-| 01  | AI Core    | 🟡     | [`01-ai-core`](01-ai-core/) |
+| 01  | AI Core    | 🟢     | [`01-ai-core`](01-ai-core/) |
 
 _Legend: 🟢 done · 🟡 in progress · ⚪ scaffolded / not started_
