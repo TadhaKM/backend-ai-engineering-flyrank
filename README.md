@@ -54,13 +54,11 @@ backend-ai-engineering-flyrank/
 │
 ├── assignments/              # ⭐ Every assignment is a numbered folder in here
 │   ├── README.md             #    Index + the assignment workflow
-│   └── assignment-01/        #    Assignment 01 (scaffolded — awaiting brief)
+│   └── assignment-01/        #    Assignment 01 — minimal Express backend
 │       ├── README.md
-│       ├── src/
-│       ├── tests/
+│       ├── server.js
 │       ├── package.json
-│       ├── tsconfig.json
-│       └── .env.example
+│       └── .gitignore
 │
 ├── extras/                   # Non-assignment projects (practice builds, spikes)
 │   └── 01-ai-core/           #    AI backend: Portkey gateway, Claude tool use, guardrails
@@ -91,8 +89,7 @@ npm run check          # format check + lint + typecheck + tests
 
 # 3. Work inside a single assignment
 cd assignments/assignment-01
-cp .env.example .env   # then fill in your secrets
-npm run dev
+npm start              # (assignments that need secrets: cp .env.example .env first)
 ```
 
 ### Root scripts
@@ -106,8 +103,8 @@ npm run dev
 | `npm test`               | Run all tests (Vitest)                               |
 | `npm run check`          | Everything above — the same gate CI runs             |
 
-> Any script can be scoped to one assignment:
-> `npm run test --workspace assignments/assignment-01`
+> Any script can be scoped to one workspace:
+> `npm start --workspace assignments/assignment-01`
 
 ---
 
@@ -199,9 +196,9 @@ tooling.
 
 Legend: 🟢 done · 🟡 in progress · ⚪ scaffolded / not started
 
-| #   | Assignment | Folder                                                   | Status | Summary            |
-| --- | ---------- | -------------------------------------------------------- | ------ | ------------------ |
-| 01  | TBD        | [`assignments/assignment-01`](assignments/assignment-01) | ⚪     | Awaiting the brief |
+| #   | Assignment              | Folder                                                   | Status | Summary                                         |
+| --- | ----------------------- | -------------------------------------------------------- | ------ | ----------------------------------------------- |
+| 01  | Minimal Express backend | [`assignments/assignment-01`](assignments/assignment-01) | 🟢     | Express server on :3000 with two JSON endpoints |
 
 > When you start a new assignment, add a row here. Keep it newest-last so the
 > table reads as a timeline.

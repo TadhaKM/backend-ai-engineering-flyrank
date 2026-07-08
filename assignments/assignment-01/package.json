@@ -3,15 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Assignment 01 — TBD.",
+  "description": "Assignment 01 — A minimal Express backend with two JSON endpoints.",
+  "main": "server.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "start": "tsx src/index.ts",
-    "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
   "dependencies": {
-    "@flyrank/shared": "*"
+    "express": "^5.2.1"
   }
 }

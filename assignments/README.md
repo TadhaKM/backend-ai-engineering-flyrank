@@ -5,7 +5,7 @@ named `assignment-NN` (zero-padded, so folders keep sorting past 10).
 
 ```text
 assignments/
-├── assignment-01/   ⚪  (not started)
+├── assignment-01/   🟢  Minimal Express backend (two JSON endpoints)
 ├── assignment-02/   (future)
 ├── assignment-03/   (future)
 └── ...
@@ -64,8 +64,8 @@ assignment-NN/
 
 ## Index
 
-| #   | Assignment | Status | Folder                            |
-| --- | ---------- | ------ | --------------------------------- |
-| 01  | TBD        | ⚪     | [`assignment-01`](assignment-01/) |
+| #   | Assignment              | Status | Folder                            |
+| --- | ----------------------- | ------ | --------------------------------- |
+| 01  | Minimal Express backend | 🟢     | [`assignment-01`](assignment-01/) |
 
 _Legend: 🟢 done · 🟡 in progress · ⚪ scaffolded / not started_
