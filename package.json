@@ -23,7 +23,7 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "vitest run",
     "test:watch": "vitest",
-    "setup:py": "python -m pip install -e shared-py -r assignments/week-04/assignment-04/requirements.txt",
+    "setup:py": "npm run setup --workspace @flyrank/assignment-04",
     "test:py": "npm run test --workspace @flyrank/shared-py && npm run test --workspace @flyrank/assignment-04",
     "check": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run test:py",
     "dev:all": "concurrently -k -n a01,a02,a03 -c blue,green,magenta \"npm start -w @flyrank/assignment-01\" \"cross-env PORT=3001 npm start -w @flyrank/assignment-02\" \"cross-env PORT=3002 STORAGE=memory npm start -w @flyrank/assignment-03\"",

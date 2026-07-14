@@ -1,10 +1,15 @@
 # Assignment 04 — dependencies.
 #
-#   pip install -r requirements.txt
+#   pip install -r requirements.txt      # RUN THIS FROM THIS FOLDER
 #
 # The first line installs the workspace's shared Python package from source, in
 # editable mode, so an edit in shared-py/ is picked up here with no reinstall.
 # It is the Python equivalent of `"@flyrank/shared": "*"` in a package.json.
+#
+# HEADS-UP: pip resolves this relative path against the CURRENT WORKING DIRECTORY,
+# not against this file. Run it from anywhere else and it fails with "not a valid
+# editable requirement". That is why the root's `npm run setup:py` delegates to
+# this folder's own `setup` script rather than calling pip from the repo root.
 -e ../../../shared-py
 
 requests>=2.32
