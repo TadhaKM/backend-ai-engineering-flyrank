@@ -15,6 +15,7 @@
 - [What this repository is](#what-this-repository-is)
 - [How the workspace is organised](#how-the-workspace-is-organised)
 - [Quick start](#quick-start)
+- [Running every assignment at once](#running-every-assignment-at-once)
 - [How to add a new assignment](#how-to-add-a-new-assignment)
 - [Repository rules](#repository-rules)
 - [The `shared/` folder](#the-shared-folder)
@@ -61,12 +62,17 @@ backend-ai-engineering-flyrank/
 │   │       ├── server.js
 │   │       ├── routes/auth.js
 │   │       └── middleware/auth.js
-│   └── week-03/ … week-10/   #    Empty, ready to be filled
+│   ├── week-04/
+│   │   └── assignment-04/    #    Assignment 04 — polite web scraper (Python)
+│   │       ├── scraper/      #      fetch → parse → clean → JSONL
+│   │       └── tests/
+│   └── week-03, 05 … 10/     #    Empty, ready to be filled
 │
 ├── extras/                   # Non-assignment projects (practice builds, spikes)
 │   └── 01-ai-core/           #    AI backend: Portkey gateway, Claude tool use, guardrails
 │
-├── shared/                   # Reusable code ONLY (logger, config, types, helpers)
+├── shared/                   # Reusable code ONLY — TypeScript  (@flyrank/shared)
+├── shared-py/                # Reusable code ONLY — Python      (flyrank_shared)
 │
 ├── templates/                # Copy-paste starting points for new assignments
 │
@@ -81,33 +87,84 @@ The rule of thumb: **assignments own their code; `shared/` owns what more than o
 
 ## Quick start
 
-Requires **Node.js ≥ 20** (see [`.nvmrc`](.nvmrc)).
+Requires **Node.js ≥ 20** (see [`.nvmrc`](.nvmrc)), and **Python ≥ 3.11** for the
+Python assignments (04 onwards).
 
 ```bash
 # 1. Install all workspace dependencies (root + shared + every assignment)
 npm install
 
-# 2. Verify the whole workspace is healthy
-npm run check          # format check + lint + typecheck + tests
+# 2. Python assignments only — create a venv, then install the Python side
+python -m venv .venv
+source .venv/Scripts/activate    # Windows (Git Bash);  .venv/bin/activate on macOS/Linux
+npm run setup:py
 
-# 3. Work inside a single assignment
+# 3. Verify the whole workspace is healthy
+npm run check          # format check + lint + typecheck + Vitest + pytest
+
+# 4. Work inside a single assignment
 cd assignments/week-01/assignment-01
 npm start              # (assignments that need secrets: cp .env.example .env first)
 ```
 
 ### Root scripts
 
-| Command                  | What it does                                         |
-| ------------------------ | ---------------------------------------------------- |
-| `npm run new:assignment` | Scaffold a new numbered assignment from the template |
-| `npm run lint`           | Lint every workspace                                 |
-| `npm run format`         | Format the entire repo with Prettier                 |
-| `npm run typecheck`      | Type-check every workspace                           |
-| `npm test`               | Run all tests (Vitest)                               |
-| `npm run check`          | Everything above — the same gate CI runs             |
+| Command                  | What it does                                               |
+| ------------------------ | ---------------------------------------------------------- |
+| `npm run new:assignment` | Scaffold a new numbered assignment from the template       |
+| `npm run lint`           | Lint every workspace                                       |
+| `npm run format`         | Format the entire repo with Prettier                       |
+| `npm run typecheck`      | Type-check every workspace                                 |
+| `npm test`               | Run the TypeScript/Node tests (Vitest)                     |
+| `npm run setup:py`       | Install the Python side (`shared-py` + Python assignments) |
+| `npm run test:py`        | Run the Python tests (pytest)                              |
+| `npm run check`          | Everything above — the same gate CI runs                   |
+| `npm run dev:all`        | Run every service at once (see below)                      |
 
 > Any script can be scoped to one workspace:
 > `npm start --workspace assignments/week-01/assignment-01`
+
+---
+
+## Running every assignment at once
+
+Assignments are self-contained and normally run one at a time. But they can all run
+side by side:
+
+```bash
+npm run dev:all
+```
+
+| Assignment | URL                     | Notes                                 |
+| ---------- | ----------------------- | ------------------------------------- |
+| 01         | <http://localhost:3000> | Two JSON endpoints                    |
+| 02         | <http://localhost:3001> | Auth: `/register`, `/login`, `/me`    |
+| 03         | <http://localhost:3002> | Same API, backed by a repository      |
+| 04         | —                       | Not a service; a CLI. See its README. |
+
+**Why those ports.** All three servers default to 3000, so two of them have to move.
+Assignments 02 and 03 read `PORT` from the environment, so they can. **Assignment 01
+hard-codes `const PORT = 3000`** and has no override — so it keeps 3000 and the others
+move around it. Nothing had to be edited to make this work, which is the point: rule
+#1 is that finished assignments don't change.
+
+**No database required.** `dev:all` starts assignment 03 with `STORAGE=memory`, so it
+runs without Docker. That flag isn't a hack for this script — it's assignment 03's own
+proof that the repository pattern works, and here it earns its keep.
+
+To run 03 against real Postgres instead:
+
+```bash
+npm run dev:db        # start just the db + redis containers
+npm run dev:all:pg    # same three servers, 03 on Postgres
+npm run dev:db:down   # stop the containers
+```
+
+**First time?** Assignments 02 and 03 refuse to boot without a `JWT_SECRET`. Copy each
+one's `.env.example` to `.env` first, or they'll tell you to.
+
+Assignment 04 is a Python CLI, not a server — it scrapes and exits — so it isn't part
+of `dev:all`. Run it on its own with `npm start -w @flyrank/assignment-04`.
 
 ---
 
@@ -161,37 +218,52 @@ These rules keep the workspace clean as it grows. **Follow them for every assign
 
 ## The `shared/` folder
 
-[`shared/`](shared/) is published to the workspace as the package **`@flyrank/shared`**.
-Any assignment can use it:
+Assignments build on each other, so anything more than one of them needs is written
+**once**, in a shared package, and imported. Never copy-pasted between assignments.
 
-```ts
-import { createLogger, loadEnv } from '@flyrank/shared';
-```
+The workspace is bilingual from assignment 04 onwards, so there are two shared
+packages — the same idea, once per language. An assignment imports whichever one
+speaks its language; they cannot import each other.
 
-It is **only** for genuinely reusable building blocks:
+| Package                    | Language | Import                                           | Used by |
+| -------------------------- | -------- | ------------------------------------------------ | ------- |
+| [`shared/`](shared/)       | TS/Node  | `import { createLogger } from '@flyrank/shared'` | 01–03   |
+| [`shared-py/`](shared-py/) | Python   | `from flyrank_shared import get_logger`          | 04+     |
+
+Both are **only** for genuinely reusable building blocks:
 
 - ✅ utility/helper functions
-- ✅ shared TypeScript types
+- ✅ shared types
 - ✅ logging
 - ✅ configuration / environment loading
-- ✅ common AI abstractions (clients, prompt helpers, retry logic…)
+- ✅ rate limiting, retry/backoff
+- ✅ common AI abstractions (clients, prompt helpers…)
 
-It is **not** for assignment-specific logic. If code only makes sense for one
-assignment, it belongs in that assignment, not here.
+Neither is for assignment-specific logic. If code only makes sense for one assignment,
+it belongs in that assignment, not here.
+
+> **The rule:** promote code to a shared package once a **second** assignment needs it —
+> not in anticipation of one. Shared code that only one thing uses is just code in the
+> wrong folder.
 
 ---
 
 ## Technology stack
 
-| Concern         | Choice                                         |
-| --------------- | ---------------------------------------------- |
-| Language        | TypeScript (strict), ESM                       |
-| Runtime         | Node.js ≥ 20                                   |
-| Package manager | npm (workspaces)                               |
-| Test runner     | Vitest                                         |
-| Linting         | ESLint + `@typescript-eslint`                  |
-| Formatting      | Prettier                                       |
-| Run/dev         | `tsx` (run TypeScript directly, no build step) |
+| Concern         | Choice                                                          |
+| --------------- | --------------------------------------------------------------- |
+| Language        | TypeScript (strict), ESM — and Python ≥ 3.11 from assignment 04 |
+| Runtime         | Node.js ≥ 20 · CPython 3.11+                                    |
+| Package manager | npm (workspaces) · pip + venv for the Python side               |
+| Test runner     | Vitest (TS) · pytest (Python)                                   |
+| Linting         | ESLint + `@typescript-eslint`                                   |
+| Formatting      | Prettier                                                        |
+| Run/dev         | `tsx` (run TypeScript directly, no build step)                  |
+
+> **Why two languages?** Assignments 01–03 are backend services, where the Node
+> ecosystem is the point. Assignment 04 onwards is data and AI work — scraping, RAG,
+> pipelines — where Python's libraries are. Each Python assignment keeps a thin
+> `package.json` so it stays in the npm workspace and `npm run check` still covers it.
 
 Individual assignments may add their own dependencies (web frameworks, vector
 DBs, AI SDKs, etc.) in their own `package.json` — the root only owns shared
@@ -203,11 +275,12 @@ tooling.
 
 Legend: 🟢 done · 🟡 in progress · ⚪ scaffolded / not started
 
-| #   | Week | Assignment              | Folder                                                                   | Status | Summary                                                     |
-| --- | ---- | ----------------------- | ------------------------------------------------------------------------ | ------ | ----------------------------------------------------------- |
-| 01  | 1    | Minimal Express backend | [`assignments/week-01/assignment-01`](assignments/week-01/assignment-01) | 🟢     | Express server on :3000 with two JSON endpoints             |
-| 02  | 2    | Authentication backend  | [`assignments/week-02/assignment-02`](assignments/week-02/assignment-02) | 🟢     | register + login, bcrypt hashing, JWT, protected route      |
-| 03  | 2    | Postgres in Docker      | [`assignments/week-02/assignment-03`](assignments/week-02/assignment-03) | 🟢     | repository swap (memory → Postgres), docker compose, volume |
+| #   | Week | Assignment              | Folder                                                                   | Status | Summary                                                                   |
+| --- | ---- | ----------------------- | ------------------------------------------------------------------------ | ------ | ------------------------------------------------------------------------- |
+| 01  | 1    | Minimal Express backend | [`assignments/week-01/assignment-01`](assignments/week-01/assignment-01) | 🟢     | Express server on :3000 with two JSON endpoints                           |
+| 02  | 2    | Authentication backend  | [`assignments/week-02/assignment-02`](assignments/week-02/assignment-02) | 🟢     | register + login, bcrypt hashing, JWT, protected route                    |
+| 03  | 2    | Postgres in Docker      | [`assignments/week-02/assignment-03`](assignments/week-02/assignment-03) | 🟢     | repository swap (memory → Postgres), docker compose, volume               |
+| 04  | 4    | Polite web scraper      | [`assignments/week-04/assignment-04`](assignments/week-04/assignment-04) | 🟢     | 🐍 Python: robots.txt, rate limiting, backoff, disk cache → `books.jsonl` |
 
 > When you start a new assignment, add a row here. Keep it newest-last so the
 > table reads as a timeline.
