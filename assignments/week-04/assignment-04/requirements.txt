@@ -1,0 +1,15 @@
+# Assignment 04 — dependencies.
+#
+#   pip install -r requirements.txt
+#
+# The first line installs the workspace's shared Python package from source, in
+# editable mode, so an edit in shared-py/ is picked up here with no reinstall.
+# It is the Python equivalent of `"@flyrank/shared": "*"` in a package.json.
+-e ../../../shared-py
+
+requests>=2.32
+beautifulsoup4>=4.12
+lxml>=5.0
+
+# Dev
+pytest>=8.0

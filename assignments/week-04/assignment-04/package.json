@@ -1,0 +1,12 @@
+{
+  "name": "@flyrank/assignment-04",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Assignment 04 — A polite Python web scraper for books.toscrape.com (robots.txt, rate limiting, retries, caching).",
+  "scripts": {
+    "setup": "python -m pip install -r requirements.txt",
+    "start": "python -m scraper.main",
+    "scrape": "python -m scraper.main --max-pages 20 --delay 1.5 --output data/books.jsonl",
+    "test": "python -m pytest"
+  }
+}

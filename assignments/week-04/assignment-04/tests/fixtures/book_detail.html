@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--
+  A trimmed but structurally faithful copy of a books.toscrape.com detail page:
+  https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html
+
+  The awkward bits are preserved on purpose, because they are what the parser has
+  to survive:
+    - the star rating lives in a CSS class ("star-rating Three"), not in any text
+    - the description is a <p> that is a SIBLING of #product_description, not a child
+    - the availability text is split across lines with ragged indentation
+    - the price carries a currency symbol
+-->
+<html lang="en-us" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <title>A Light in the Attic | Books to Scrape - Sandbox</title>
+  </head>
+  <body id="default" class="default">
+    <div class="container-fluid page">
+      <div class="page_inner">
+        <ul class="breadcrumb">
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../category/books_1/index.html">Books</a></li>
+          <li><a href="../category/books/poetry_23/index.html">Poetry</a></li>
+          <li class="active">A Light in the Attic</li>
+        </ul>
+
+        <div class="content">
+          <div id="content_inner">
+            <article class="product_page">
+              <div class="row">
+                <div class="col-sm-6 col-md-6 product_main">
+                  <h1>A Light in the Attic</h1>
+                  <p class="price_color">£51.77</p>
+
+                  <p class="instock availability">
+                    <i class="icon-ok"></i>
+
+                    In stock (22 available)
+                  </p>
+
+                  <p class="star-rating Three">
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                    <i class="icon-star"></i>
+                  </p>
+                </div>
+              </div>
+
+              <div id="product_description" class="sub-header">
+                <h2>Product Description</h2>
+              </div>
+              <p>
+                It's hard to imagine a world without A Light in the Attic. This now-classic
+                collection of poetry and drawings from Shel Silverstein celebrates its
+                20th anniversary with this special edition. Silverstein's humorous and
+                creative verse can amuse the dowdiest of readers.
+              </p>
+
+              <div class="sub-header">
+                <h2>Product Information</h2>
+              </div>
+              <table class="table table-striped">
+                <tr>
+                  <th>UPC</th>
+                  <td>a897fe39b1053632</td>
+                </tr>
+                <tr>
+                  <th>Product Type</th>
+                  <td>Books</td>
+                </tr>
+                <tr>
+                  <th>Price (excl. tax)</th>
+                  <td>£51.77</td>
+                </tr>
+                <tr>
+                  <th>Price (incl. tax)</th>
+                  <td>£51.77</td>
+                </tr>
+                <tr>
+                  <th>Tax</th>
+                  <td>£0.00</td>
+                </tr>
+                <tr>
+                  <th>Availability</th>
+                  <td>In stock (22 available)</td>
+                </tr>
+                <tr>
+                  <th>Number of reviews</th>
+                  <td>0</td>
+                </tr>
+              </table>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

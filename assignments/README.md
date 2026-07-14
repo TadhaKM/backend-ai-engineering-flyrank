@@ -12,6 +12,9 @@ assignments/
 │   ├── assignment-02/   🟢  Auth backend (register, login, JWT, protected route)
 │   └── assignment-03/   🟢  Postgres in Docker (repository swap, volume, compose)
 ├── week-03/             (empty)
+├── week-04/
+│   └── assignment-04/   🟢  Polite web scraper (robots.txt, rate limit, retries, cache) — Python
+├── week-05/             (empty)
 │   ...
 └── week-10/             (empty)
 ```
@@ -88,12 +91,27 @@ The two docs are never optional.
 
 ## Index
 
-| #   | Week | Assignment              | Status | Folder                                            |
-| --- | ---- | ----------------------- | ------ | ------------------------------------------------- |
-| 01  | 1    | Minimal Express backend | 🟢     | [`week-01/assignment-01`](week-01/assignment-01/) |
-| 02  | 2    | Authentication backend  | 🟢     | [`week-02/assignment-02`](week-02/assignment-02/) |
-| 03  | 2    | Postgres in Docker      | 🟢     | [`week-02/assignment-03`](week-02/assignment-03/) |
+| #   | Week | Assignment              | Lang   | Status | Folder                                            |
+| --- | ---- | ----------------------- | ------ | ------ | ------------------------------------------------- |
+| 01  | 1    | Minimal Express backend | Node   | 🟢     | [`week-01/assignment-01`](week-01/assignment-01/) |
+| 02  | 2    | Authentication backend  | Node   | 🟢     | [`week-02/assignment-02`](week-02/assignment-02/) |
+| 03  | 2    | Postgres in Docker      | Node   | 🟢     | [`week-02/assignment-03`](week-02/assignment-03/) |
+| 04  | 4    | Polite web scraper      | Python | 🟢     | [`week-04/assignment-04`](week-04/assignment-04/) |
 
-Weeks 3–10 exist and are empty, ready to be filled.
+Week 3 and weeks 5–10 exist and are empty, ready to be filled.
+
+## Two languages, two shared packages
+
+From assignment 04 the workspace is bilingual, so reuse has two homes. They are the
+same idea twice; an assignment uses whichever one speaks its language.
+
+| Assignments | Language | Import from                                      |
+| ----------- | -------- | ------------------------------------------------ |
+| 01–03       | Node/TS  | [`shared/`](../shared/) — `@flyrank/shared`      |
+| 04+         | Python   | [`shared-py/`](../shared-py/) — `flyrank_shared` |
+
+Both follow the same rule: **promote code once a second assignment needs it**, never in
+anticipation. Python assignments still carry a small `package.json` so they stay inside
+the npm workspace and `npm run check` keeps covering them.
 
 _Legend: 🟢 done · 🟡 in progress · ⚪ scaffolded / not started_

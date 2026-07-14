@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.egg-info/
+
+# Scraper output & cache — regenerable, and the cache is a copy of someone
+# else's site. Neither belongs in git.
+data/cache/
+data/books.jsonl
+data/books.csv
+logs/

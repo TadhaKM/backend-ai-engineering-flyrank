@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--
+  The "read more" case, copied from the real page for Soumission:
+  https://books.toscrape.com/catalogue/soumission_998/index.html
+
+  The description <p> contains the text TWICE — a truncated preview (cut
+  mid-word, at "sans vraie révolution, s") immediately followed by the full text,
+  with a trailing "...more". A browser hides one copy with JavaScript. A scraper
+  sees no JavaScript, so it reads both.
+
+  This fixture exists so that bug can never come back.
+-->
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8" />
+    <title>Soumission | Books to Scrape - Sandbox</title>
+  </head>
+  <body>
+    <div class="page_inner">
+      <ul class="breadcrumb">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../category/books_1/index.html">Books</a></li>
+        <li><a href="../category/books/fiction_10/index.html">Fiction</a></li>
+        <li class="active">Soumission</li>
+      </ul>
+
+      <article class="product_page">
+        <div class="row">
+          <div class="col-sm-6 product_main">
+            <h1>Soumission</h1>
+            <p class="price_color">£50.10</p>
+            <p class="instock availability">
+              <i class="icon-ok"></i>
+
+              In stock (20 available)
+            </p>
+            <p class="star-rating One"><i class="icon-star"></i></p>
+          </div>
+        </div>
+
+        <div id="product_description" class="sub-header">
+          <h2>Product Description</h2>
+        </div>
+        <p>Dans une France assez proche de la nôtre, un homme s’engage dans la carrière universitaire. Peu motivé par l’enseignement, il s’attend à une vie ennuyeuse mais calme, protégée des grands drames historiques. Cependant les forces en jeu dans le pays ont fissuré le système politique jusqu’à provoquer son effondrement. Cette implosion sans soubresauts, sans vraie révolution, s Dans une France assez proche de la nôtre, un homme s’engage dans la carrière universitaire. Peu motivé par l’enseignement, il s’attend à une vie ennuyeuse mais calme, protégée des grands drames historiques. Cependant les forces en jeu dans le pays ont fissuré le système politique jusqu’à provoquer son effondrement. Cette implosion sans soubresauts, sans vraie révolution, se développe comme un mauvais rêve.Le talent de l’auteur, sa force visionnaire nous entraînent sur un terrain ambigu et glissant ; son regard sur notre civilisation vieillissante fait coexister dans ce roman les intuitions poétiques, les effets comiques, une mélancolie fataliste.Ce livre est une saisissante fable politique et morale. ...more</p>
+
+        <div class="sub-header">
+          <h2>Product Information</h2>
+        </div>
+        <table class="table table-striped">
+          <tr>
+            <th>UPC</th>
+            <td>6957f44c3847a760</td>
+          </tr>
+          <tr>
+            <th>Price (incl. tax)</th>
+            <td>£50.10</td>
+          </tr>
+          <tr>
+            <th>Availability</th>
+            <td>In stock (20 available)</td>
+          </tr>
+        </table>
+      </article>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+[project]
+name = "assignment-04-scraper"
+version = "0.1.0"
+description = "Assignment 04 — a polite web scraper for books.toscrape.com."
+requires-python = ">=3.11"
+dependencies = [
+  "flyrank-shared",
+  "requests>=2.32",
+  "beautifulsoup4>=4.12",
+  "lxml>=5.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+# `python -m pytest` from this folder should find `scraper` and `tests` without
+# either of them being pip-installed.
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
