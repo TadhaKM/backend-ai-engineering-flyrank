@@ -8,3 +8,13 @@ package-lock.json
 # Templates contain placeholder tokens (e.g. __NUMBER__) that Prettier's
 # markdown formatter would mangle into bold text. They are copied, not run.
 templates/
+
+# Test fixtures are saved copies of real pages. Their value is being byte-faithful
+# to what the site actually served — reformatting them would defeat the point.
+**/tests/fixtures/
+
+# Scraper output and cache: generated, not authored.
+**/data/
+
+# Python
+.venv/

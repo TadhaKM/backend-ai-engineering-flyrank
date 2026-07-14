@@ -1,11 +1,16 @@
 # `@flyrank/shared`
 
-Reusable building blocks shared across **every** assignment. This folder is a
-workspace package published locally as `@flyrank/shared`, so any assignment can:
+Reusable building blocks shared across every **TypeScript/Node** assignment. This
+folder is a workspace package published locally as `@flyrank/shared`, so any Node
+assignment can:
 
 ```ts
 import { createLogger, requireEnv, ok, err, type Result } from '@flyrank/shared';
 ```
+
+> **Python assignments (04 onwards) use [`shared-py/`](../shared-py/) instead** — the
+> same idea, in Python, imported as `flyrank_shared`. A Python program cannot import a
+> TypeScript package, so reuse has one home per language. Same rules apply to both.
 
 ## What belongs here
 

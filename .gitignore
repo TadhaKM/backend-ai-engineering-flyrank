@@ -39,3 +39,12 @@ Thumbs.db
 .cache/
 .eslintcache
 .turbo/
+
+# Python (assignments from week-04 onwards, and shared-py/)
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/

@@ -1,0 +1,9 @@
+{
+  "name": "@flyrank/shared-py",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Python counterpart of @flyrank/shared — reusable building blocks for the Python assignments. This package.json is a thin wrapper so npm scripts reach the Python tooling.",
+  "scripts": {
+    "test": "python -m pytest"
+  }
+}

@@ -10,6 +10,7 @@
   },
   "workspaces": [
     "shared",
+    "shared-py",
     "assignments/week-*/*",
     "extras/*"
   ],
@@ -22,12 +23,20 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run test"
+    "setup:py": "python -m pip install -e shared-py -r assignments/week-04/assignment-04/requirements.txt",
+    "test:py": "npm run test --workspace @flyrank/shared-py && npm run test --workspace @flyrank/assignment-04",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run test:py",
+    "dev:all": "concurrently -k -n a01,a02,a03 -c blue,green,magenta \"npm start -w @flyrank/assignment-01\" \"cross-env PORT=3001 npm start -w @flyrank/assignment-02\" \"cross-env PORT=3002 STORAGE=memory npm start -w @flyrank/assignment-03\"",
+    "dev:all:pg": "concurrently -k -n a01,a02,a03 -c blue,green,magenta \"npm start -w @flyrank/assignment-01\" \"cross-env PORT=3001 npm start -w @flyrank/assignment-02\" \"cross-env PORT=3002 STORAGE=postgres npm start -w @flyrank/assignment-03\"",
+    "dev:db": "docker compose -f assignments/week-02/assignment-03/docker-compose.yml up -d db redis",
+    "dev:db:down": "docker compose -f assignments/week-02/assignment-03/docker-compose.yml down"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
+    "concurrently": "^10.0.3",
+    "cross-env": "^10.1.0",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.4.2",
