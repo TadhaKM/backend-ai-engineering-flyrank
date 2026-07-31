@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Assignment 01 — A minimal Express backend with two JSON endpoints.",
+  "description": "Assignment 01 — Your first CRUD API: an in-memory to-do list over Express, documented with Swagger UI.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js"
   },
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "swagger-ui-express": "^5.0.1"
   }
 }

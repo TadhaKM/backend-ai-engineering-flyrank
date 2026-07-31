@@ -1,0 +1,138 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Task API",
+    "version": "1.0.0",
+    "description": "A small in-memory CRUD API for a to-do list. Data is stored in an array and resets when the server restarts."
+  },
+  "servers": [{ "url": "http://localhost:3000" }],
+  "tags": [{ "name": "tasks" }, { "name": "meta" }],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": ["meta"],
+        "summary": "Describe the API",
+        "responses": { "200": { "description": "API metadata" } }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": ["meta"],
+        "summary": "Liveness check",
+        "responses": { "200": { "description": "The server is alive" } }
+      }
+    },
+    "/tasks": {
+      "get": {
+        "tags": ["tasks"],
+        "summary": "List all tasks",
+        "responses": {
+          "200": {
+            "description": "Every task",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Task" } }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["tasks"],
+        "summary": "Create a task",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/NewTask" },
+              "example": { "title": "Buy milk" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The created task",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Task" } }
+            }
+          },
+          "400": { "description": "title is missing or empty" }
+        }
+      }
+    },
+    "/tasks/{id}": {
+      "parameters": [
+        { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+      ],
+      "get": {
+        "tags": ["tasks"],
+        "summary": "Get one task",
+        "responses": {
+          "200": {
+            "description": "The task",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Task" } }
+            }
+          },
+          "404": { "description": "No task with that id" }
+        }
+      },
+      "put": {
+        "tags": ["tasks"],
+        "summary": "Update a task",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/TaskUpdate" },
+              "example": { "done": true }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated task",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Task" } }
+            }
+          },
+          "400": { "description": "Nothing to update, or an invalid field" },
+          "404": { "description": "No task with that id" }
+        }
+      },
+      "delete": {
+        "tags": ["tasks"],
+        "summary": "Delete a task",
+        "responses": {
+          "204": { "description": "Deleted; no content returned" },
+          "404": { "description": "No task with that id" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Task": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "title": { "type": "string", "example": "Buy milk" },
+          "done": { "type": "boolean", "example": false }
+        },
+        "required": ["id", "title", "done"]
+      },
+      "NewTask": {
+        "type": "object",
+        "properties": { "title": { "type": "string", "example": "Buy milk" } },
+        "required": ["title"]
+      },
+      "TaskUpdate": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "example": "Buy oat milk" },
+          "done": { "type": "boolean", "example": true }
+        }
+      }
+    }
+  }
+}
