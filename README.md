@@ -56,17 +56,19 @@ backend-ai-engineering-flyrank/
 ├── assignments/              # ⭐ Assignments, grouped into week-01 … week-10
 │   ├── README.md             #    Index + the assignment workflow
 │   ├── week-01/
-│   │   └── assignment-01/    #    Assignment 01 — minimal Express backend
+│   │   └── assignment-01/    #    Assignment 01 — to-do CRUD API (in-memory) + Swagger
 │   ├── week-02/
 │   │   └── assignment-02/    #    Assignment 02 — auth: bcrypt, JWT, protected route
 │   │       ├── server.js
 │   │       ├── routes/auth.js
 │   │       └── middleware/auth.js
+│   ├── week-03/
+│   │   └── assignment-05/    #    Assignment 05 — CRUD API on SQLite (survives restart)
 │   ├── week-04/
 │   │   └── assignment-04/    #    Assignment 04 — polite web scraper (Python)
 │   │       ├── scraper/      #      fetch → parse → clean → JSONL
 │   │       └── tests/
-│   └── week-03, 05 … 10/     #    Empty, ready to be filled
+│   └── week-05 … 10/         #    Empty, ready to be filled
 │
 ├── extras/                   # Non-assignment projects (practice builds, spikes)
 │   └── 01-ai-core/           #    AI backend: Portkey gateway, Claude tool use, guardrails
@@ -137,10 +139,14 @@ npm run dev:all
 
 | Assignment | URL                     | Notes                                 |
 | ---------- | ----------------------- | ------------------------------------- |
-| 01         | <http://localhost:3000> | Two JSON endpoints                    |
+| 01         | <http://localhost:3000> | Task CRUD API + Swagger at `/docs`    |
 | 02         | <http://localhost:3001> | Auth: `/register`, `/login`, `/me`    |
 | 03         | <http://localhost:3002> | Same API, backed by a repository      |
 | 04         | —                       | Not a service; a CLI. See its README. |
+
+> Assignment 05 is also a `:3000` server (the SQLite CRUD API), so it collides with 01
+> and is **not** part of `dev:all` — run it on its own with
+> `npm start -w @flyrank/assignment-05`.
 
 **Why those ports.** All three servers default to 3000, so two of them have to move.
 Assignments 02 and 03 read `PORT` from the environment, so they can. **Assignment 01
@@ -275,12 +281,13 @@ tooling.
 
 Legend: 🟢 done · 🟡 in progress · ⚪ scaffolded / not started
 
-| #   | Week | Assignment              | Folder                                                                   | Status | Summary                                                                   |
-| --- | ---- | ----------------------- | ------------------------------------------------------------------------ | ------ | ------------------------------------------------------------------------- |
-| 01  | 1    | Minimal Express backend | [`assignments/week-01/assignment-01`](assignments/week-01/assignment-01) | 🟢     | Express server on :3000 with two JSON endpoints                           |
-| 02  | 2    | Authentication backend  | [`assignments/week-02/assignment-02`](assignments/week-02/assignment-02) | 🟢     | register + login, bcrypt hashing, JWT, protected route                    |
-| 03  | 2    | Postgres in Docker      | [`assignments/week-02/assignment-03`](assignments/week-02/assignment-03) | 🟢     | repository swap (memory → Postgres), docker compose, volume               |
-| 04  | 4    | Polite web scraper      | [`assignments/week-04/assignment-04`](assignments/week-04/assignment-04) | 🟢     | 🐍 Python: robots.txt, rate limiting, backoff, disk cache → `books.jsonl` |
+| #   | Week | Assignment             | Folder                                                                   | Status | Summary                                                                       |
+| --- | ---- | ---------------------- | ------------------------------------------------------------------------ | ------ | ----------------------------------------------------------------------------- |
+| 01  | 1    | CRUD API (in-memory)   | [`assignments/week-01/assignment-01`](assignments/week-01/assignment-01) | 🟢     | to-do CRUD over Express, in-memory store, Swagger UI at `/docs`               |
+| 02  | 2    | Authentication backend | [`assignments/week-02/assignment-02`](assignments/week-02/assignment-02) | 🟢     | register + login, bcrypt hashing, JWT, protected route                        |
+| 03  | 2    | Postgres in Docker     | [`assignments/week-02/assignment-03`](assignments/week-02/assignment-03) | 🟢     | repository swap (memory → Postgres), docker compose, volume                   |
+| 04  | 4    | Polite web scraper     | [`assignments/week-04/assignment-04`](assignments/week-04/assignment-04) | 🟢     | 🐍 Python: robots.txt, rate limiting, backoff, disk cache → `books.jsonl`     |
+| 05  | 3    | CRUD API on SQLite     | [`assignments/week-03/assignment-05`](assignments/week-03/assignment-05) | 🟢     | assignment 01's CRUD, in-memory → SQLite (`better-sqlite3`), survives restart |
 
 > When you start a new assignment, add a row here. Keep it newest-last so the
 > table reads as a timeline.

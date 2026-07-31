@@ -1,0 +1,8 @@
+# Dependencies
+node_modules/
+
+# The SQLite database and its WAL sidecars — regenerated on first run, and not
+# something anyone should commit. The table + seed data rebuild automatically.
+*.db
+*.db-shm
+*.db-wal

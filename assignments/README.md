@@ -7,11 +7,12 @@ week, and every assignment is its **own self-contained folder** named
 ```text
 assignments/
 ├── week-01/
-│   └── assignment-01/   🟢  Minimal Express backend (two JSON endpoints)
+│   └── assignment-01/   🟢  CRUD to-do API, in-memory store, Swagger UI (/docs)
 ├── week-02/
 │   ├── assignment-02/   🟢  Auth backend (register, login, JWT, protected route)
 │   └── assignment-03/   🟢  Postgres in Docker (repository swap, volume, compose)
-├── week-03/             (empty)
+├── week-03/
+│   └── assignment-05/   🟢  CRUD on SQLite — assignment 01's API, now it survives restart
 ├── week-04/
 │   └── assignment-04/   🟢  Polite web scraper (robots.txt, rate limit, retries, cache) — Python
 ├── week-05/             (empty)
@@ -78,8 +79,8 @@ week-NN/
 bugs hit, and how it was verified. Keep them distinct — don't repeat the README.
 
 Simple assignments may drop the code scaffolding they don't need — `assignment-01` is
-plain JS with no env vars, so it has just `server.js`, `package.json`, and `.gitignore`.
-The two docs are never optional.
+plain JS, so it has just `server.js` (+ `openapi.json`), `package.json`, and
+`.gitignore`, with no `src/`, `tests/`, or `tsconfig.json`. The two docs are never optional.
 
 ## Rules recap
 
@@ -91,14 +92,15 @@ The two docs are never optional.
 
 ## Index
 
-| #   | Week | Assignment              | Lang   | Status | Folder                                            |
-| --- | ---- | ----------------------- | ------ | ------ | ------------------------------------------------- |
-| 01  | 1    | Minimal Express backend | Node   | 🟢     | [`week-01/assignment-01`](week-01/assignment-01/) |
-| 02  | 2    | Authentication backend  | Node   | 🟢     | [`week-02/assignment-02`](week-02/assignment-02/) |
-| 03  | 2    | Postgres in Docker      | Node   | 🟢     | [`week-02/assignment-03`](week-02/assignment-03/) |
-| 04  | 4    | Polite web scraper      | Python | 🟢     | [`week-04/assignment-04`](week-04/assignment-04/) |
+| #   | Week | Assignment             | Lang   | Status | Folder                                            |
+| --- | ---- | ---------------------- | ------ | ------ | ------------------------------------------------- |
+| 01  | 1    | CRUD API (in-memory)   | Node   | 🟢     | [`week-01/assignment-01`](week-01/assignment-01/) |
+| 02  | 2    | Authentication backend | Node   | 🟢     | [`week-02/assignment-02`](week-02/assignment-02/) |
+| 03  | 2    | Postgres in Docker     | Node   | 🟢     | [`week-02/assignment-03`](week-02/assignment-03/) |
+| 04  | 4    | Polite web scraper     | Python | 🟢     | [`week-04/assignment-04`](week-04/assignment-04/) |
+| 05  | 3    | CRUD API on SQLite     | Node   | 🟢     | [`week-03/assignment-05`](week-03/assignment-05/) |
 
-Week 3 and weeks 5–10 exist and are empty, ready to be filled.
+Weeks 5–10 exist and are empty, ready to be filled.
 
 ## Two languages, two shared packages
 
