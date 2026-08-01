@@ -82,6 +82,20 @@ describe('Tasks API on SQLite', () => {
     expect(res.body).toHaveLength(4); // 3 seeded + 1 created, still there
   });
 
+  // --- same API as assignment-01 -------------------------------------------
+
+  it('GET / returns the same descriptor as assignment-01', async () => {
+    const res = await request(app).get('/');
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ name: 'Task API', version: '1.0', endpoints: ['/tasks'] });
+  });
+
+  it('GET /health returns { status: "ok" }', async () => {
+    const res = await request(app).get('/health');
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ status: 'ok' });
+  });
+
   // --- read ----------------------------------------------------------------
 
   it('GET /tasks/:id returns one task', async () => {
@@ -96,9 +110,10 @@ describe('Tasks API on SQLite', () => {
     expect(res.body).toEqual({ error: 'Task not found' });
   });
 
-  it('GET /tasks/:id returns 400 for a malformed id', async () => {
+  it('GET /tasks/:id treats a malformed id as not found (404), like assignment-01', async () => {
     const res = await request(app).get('/tasks/not-a-number');
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(404);
+    expect(res.body).toEqual({ error: 'Task not found' });
   });
 
   // --- create --------------------------------------------------------------
@@ -164,6 +179,13 @@ describe('Tasks API on SQLite', () => {
     const res = await request(app).get('/tasks?search=readme');
     expect(res.body).toHaveLength(1);
     expect(res.body[0].title).toBe('Read the README');
+  });
+
+  it('GET /tasks?sort=title returns tasks in alphabetical order', async () => {
+    const res = await request(app).get('/tasks?sort=title');
+    const titles = res.body.map((t) => t.title);
+    // Seed titles sorted alphabetically (case-insensitive).
+    expect(titles).toEqual(['Learn some SQL', 'Read the README', 'Start the server']);
   });
 
   it('GET /tasks?done=maybe is a client error (400)', async () => {

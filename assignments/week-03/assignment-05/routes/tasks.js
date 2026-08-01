@@ -41,14 +41,21 @@ export function createTasksRouter(store) {
       filters.search = req.query.search.trim();
     }
 
+    // ?sort=title — alphabetical by title. Default (anything else) is by id.
+    if (req.query.sort === 'title') {
+      filters.sort = 'title';
+    }
+
     return res.json(store.list(filters));
   });
 
   // GET /tasks/:id — one task, or 404.
   router.get('/tasks/:id', (req, res) => {
     const id = parseId(req.params.id);
+    // A malformed id is simply an id that matches no task — 404, exactly like the
+    // in-memory assignment-01 behaves. (The spec: "unknown ids return 404".)
     if (id === null) {
-      return res.status(400).json({ error: 'id must be a positive integer' });
+      return res.status(404).json({ error: 'Task not found' });
     }
 
     const task = store.getById(id);
@@ -83,7 +90,7 @@ export function createTasksRouter(store) {
   router.put('/tasks/:id', (req, res) => {
     const id = parseId(req.params.id);
     if (id === null) {
-      return res.status(400).json({ error: 'id must be a positive integer' });
+      return res.status(404).json({ error: 'Task not found' });
     }
 
     const { title, done } = req.body ?? {};
@@ -118,7 +125,7 @@ export function createTasksRouter(store) {
   router.delete('/tasks/:id', (req, res) => {
     const id = parseId(req.params.id);
     if (id === null) {
-      return res.status(400).json({ error: 'id must be a positive integer' });
+      return res.status(404).json({ error: 'Task not found' });
     }
 
     const removed = store.remove(id);
@@ -146,9 +153,9 @@ export function createTasksRouter(store) {
 /**
  * Parse a route `:id` into a positive integer, or `null` if it is not one.
  *
- * `/tasks/abc` and `/tasks/-1` are malformed input (400), which is a different
- * thing from `/tasks/9999` — a well-formed id that simply has no task (404).
- * Keeping those two apart is what makes the API honest about what went wrong.
+ * `null` means "no task can have this id" — `/tasks/abc`, `/tasks/-1`, and
+ * `/tasks/9999` all end up as a 404, which is exactly how the in-memory
+ * assignment-01 behaves. Same API, different storage.
  */
 function parseId(raw) {
   const n = Number(raw);

@@ -116,9 +116,9 @@ export function createTaskStore(db) {
      *
      * The WHERE clause is built up from whichever filters were passed, but the
      * VALUES are still bound to `?` placeholders — never string-concatenated.
-     * This is the "★ search / filter" extras and the read side, in one place.
+     * This is the "★ search / filter / sort" extras and the read side, in one place.
      *
-     * @param {{ done?: boolean, search?: string }} [filters]
+     * @param {{ done?: boolean, search?: string, sort?: 'title' }} [filters]
      */
     list(filters = {}) {
       const where = [];
@@ -136,7 +136,12 @@ export function createTaskStore(db) {
       }
 
       const clause = where.length ? `WHERE ${where.join(' AND ')}` : '';
-      const rows = db.prepare(`SELECT * FROM tasks ${clause} ORDER BY id`).all(...params);
+      // `sort` is not user text — it is one of a fixed set of options mapped to a
+      // known SQL fragment here, so it never touches the query as raw input.
+      // COLLATE NOCASE makes the alphabetical sort case-insensitive; the id
+      // tiebreak keeps the order stable when two titles match.
+      const order = filters.sort === 'title' ? 'ORDER BY title COLLATE NOCASE, id' : 'ORDER BY id';
+      const rows = db.prepare(`SELECT * FROM tasks ${clause} ${order}`).all(...params);
       return rows.map(toTask);
     },
 

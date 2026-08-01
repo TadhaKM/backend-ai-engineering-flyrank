@@ -19,20 +19,27 @@ Client ──▶ API ──▶ SQL database        (was: Client ──▶ API �
 
 ## Endpoints
 
-Identical to assignment-01, plus a `/stats` extra.
+The `/`, `/health`, and `/tasks` CRUD endpoints are **byte-for-byte identical** to
+assignment-01 — same URLs, same bodies, same responses, same status codes. The only
+additions are the optional extras (`/stats`, and the `?` query filters).
 
-| Method & path       | Body                     | Success        | Errors               |
-| ------------------- | ------------------------ | -------------- | -------------------- |
-| `GET /`             | —                        | `200` API info | —                    |
-| `GET /tasks`        | — (`?done=`, `?search=`) | `200` array    | `400` bad `?done=`   |
-| `GET /tasks/:id`    | —                        | `200` task     | `400` bad id · `404` |
-| `POST /tasks`       | `{ "title", "done"? }`   | `201` task     | `400` bad body       |
-| `PUT /tasks/:id`    | `{ "title"?, "done"? }`  | `200` task     | `400` · `404`        |
-| `DELETE /tasks/:id` | —                        | `204` empty    | `400` · `404`        |
-| `GET /stats`        | —                        | `200` counts   | —                    |
+| Method & path       | Body                                    | Success               | Errors             |
+| ------------------- | --------------------------------------- | --------------------- | ------------------ |
+| `GET /`             | —                                       | `200` API descriptor  | —                  |
+| `GET /health`       | —                                       | `200` `{status:"ok"}` | —                  |
+| `GET /tasks`        | — (`?done=`, `?search=`, `?sort=title`) | `200` array           | `400` bad `?done=` |
+| `GET /tasks/:id`    | —                                       | `200` task            | `404` not found    |
+| `POST /tasks`       | `{ "title", "done"? }`                  | `201` task            | `400` bad body     |
+| `PUT /tasks/:id`    | `{ "title"?, "done"? }`                 | `200` task            | `400` · `404`      |
+| `DELETE /tasks/:id` | —                                       | `204` empty           | `404` not found    |
+| `GET /stats`        | —                                       | `200` counts          | —                  |
 
 A task is `{ id, title, done, created_at, updated_at }`. `done` is always a real
-boolean in the API, even though SQLite stores it as `0`/`1`.
+boolean in the API, even though SQLite stores it as `0`/`1`. (assignment-01's task had
+no timestamps — the two extra fields are the optional "add timestamps" extra.)
+
+An unknown **or** malformed id (`/tasks/abc`, `/tasks/-1`, `/tasks/9999`) all return the
+same `404 { "error": "Task not found" }`, exactly as the in-memory version did.
 
 ---
 
@@ -146,5 +153,7 @@ other. Swap SQLite for Postgres and only `db.js` changes — which is precisely 
 
 - **Port 3000 is the default** (override with `PORT`). Only one server can use it at a
   time.
-- **`?search=`** is a case-insensitive substring match (SQL `LIKE`), ASCII only.
+- **Query extras:** `?search=` is a case-insensitive substring match (SQL `LIKE`, ASCII
+  only); `?done=true|false` filters by status; `?sort=title` orders alphabetically
+  (default is by id). They can be combined.
 - **No auth, no pagination.** Out of scope; this assignment is about persistence.

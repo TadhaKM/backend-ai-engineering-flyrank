@@ -18,19 +18,15 @@ export function createApp(store) {
   // the task they were sent.
   app.use(express.json());
 
-  // A friendly index so hitting the root in a browser explains the API.
+  // Root + health are byte-for-byte identical to assignment-01. The whole point
+  // of this assignment is that swapping the storage does not change the API, so
+  // these responses must match the in-memory version exactly.
   app.get('/', (req, res) => {
-    res.json({
-      message: 'Tasks API — CRUD over SQLite',
-      endpoints: [
-        'GET /tasks',
-        'GET /tasks/:id',
-        'POST /tasks',
-        'PUT /tasks/:id',
-        'DELETE /tasks/:id',
-        'GET /stats',
-      ],
-    });
+    res.json({ name: 'Task API', version: '1.0', endpoints: ['/tasks'] });
+  });
+
+  app.get('/health', (req, res) => {
+    res.json({ status: 'ok' });
   });
 
   app.use(createTasksRouter(store));
