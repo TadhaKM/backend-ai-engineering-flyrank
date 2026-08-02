@@ -58,10 +58,9 @@ backend-ai-engineering-flyrank/
 │   ├── week-01/
 │   │   └── assignment-01/    #    Assignment 01 — to-do CRUD API (in-memory) + Swagger
 │   ├── week-02/
-│   │   └── assignment-02/    #    Assignment 02 — auth: bcrypt, JWT, protected route
-│   │       ├── server.js
-│   │       ├── routes/auth.js
-│   │       └── middleware/auth.js
+│   │   ├── assignment-02/    #    Assignment 02 — auth: bcrypt, JWT, protected route
+│   │   ├── assignment-03/    #    Assignment 03 — Postgres in Docker (repository swap)
+│   │   └── assignment-06/    #    Assignment 06 — Supabase Auth + Swagger Bearer
 │   ├── week-03/
 │   │   └── assignment-05/    #    Assignment 05 — CRUD API on SQLite (survives restart)
 │   ├── week-04/
@@ -288,6 +287,7 @@ Legend: 🟢 done · 🟡 in progress · ⚪ scaffolded / not started
 | 03  | 2    | Postgres in Docker     | [`assignments/week-02/assignment-03`](assignments/week-02/assignment-03) | 🟢     | repository swap (memory → Postgres), docker compose, volume                   |
 | 04  | 4    | Polite web scraper     | [`assignments/week-04/assignment-04`](assignments/week-04/assignment-04) | 🟢     | 🐍 Python: robots.txt, rate limiting, backoff, disk cache → `books.jsonl`     |
 | 05  | 3    | CRUD API on SQLite     | [`assignments/week-03/assignment-05`](assignments/week-03/assignment-05) | 🟢     | assignment 01's CRUD, in-memory → SQLite (`better-sqlite3`), survives restart |
+| 06  | 2    | Supabase Auth          | [`assignments/week-02/assignment-06`](assignments/week-02/assignment-06) | 🟢     | signup/login/logout via Supabase, JWT-guarded routes, Swagger Bearer auth     |
 
 > When you start a new assignment, add a row here. Keep it newest-last so the
 > table reads as a timeline.

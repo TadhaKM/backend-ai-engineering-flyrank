@@ -1,0 +1,152 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Supabase Auth API",
+    "version": "1.0.0",
+    "description": "Sign up, log in, log out, and guard protected routes with Supabase-issued JWTs. Click Authorize and paste an access_token (from POST /auth/login) to try the protected endpoints."
+  },
+  "servers": [{ "url": "http://localhost:3000" }],
+  "tags": [{ "name": "auth" }, { "name": "protected" }, { "name": "public" }],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Paste the access_token returned by POST /auth/login."
+      }
+    },
+    "schemas": {
+      "Credentials": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": { "type": "string", "example": "test@example.com" },
+          "password": { "type": "string", "example": "password123" }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": { "error": { "type": "string" } }
+      }
+    }
+  },
+  "paths": {
+    "/public/info": {
+      "get": {
+        "tags": ["public"],
+        "summary": "Public info (no auth)",
+        "responses": { "200": { "description": "A public welcome message" } }
+      }
+    },
+    "/auth/signup": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Create a new account",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Credentials" } }
+          }
+        },
+        "responses": {
+          "201": { "description": "User created" },
+          "400": {
+            "description": "Missing email/password, or Supabase rejected it",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Error" } }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Log in, receive an access + refresh token",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/Credentials" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login succeeded; tokens returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": { "type": "string" },
+                    "refresh_token": { "type": "string" },
+                    "user": { "type": "object" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "description": "Missing email/password" },
+          "401": {
+            "description": "Invalid login credentials",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Error" } }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Log out (ends the session)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "204": { "description": "Logged out; no content" },
+          "401": { "description": "Missing or invalid token" }
+        }
+      }
+    },
+    "/protected/profile": {
+      "get": {
+        "tags": ["protected"],
+        "summary": "The caller's own profile",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "The verified user's metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string" },
+                    "email": { "type": "string" },
+                    "created_at": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access token required, or invalid/expired",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/Error" } }
+            }
+          }
+        }
+      }
+    },
+    "/protected/dashboard": {
+      "get": {
+        "tags": ["protected"],
+        "summary": "A second protected route (same guard)",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Private dashboard payload" },
+          "401": { "description": "Access token required, or invalid/expired" }
+        }
+      }
+    }
+  }
+}

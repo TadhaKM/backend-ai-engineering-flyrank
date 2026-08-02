@@ -1,0 +1,5 @@
+# Dependencies
+node_modules/
+
+# Secrets — NEVER commit the Supabase keys. .env.example is committed instead.
+.env

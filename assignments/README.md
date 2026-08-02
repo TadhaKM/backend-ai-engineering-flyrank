@@ -10,7 +10,8 @@ assignments/
 │   └── assignment-01/   🟢  CRUD to-do API, in-memory store, Swagger UI (/docs)
 ├── week-02/
 │   ├── assignment-02/   🟢  Auth backend (register, login, JWT, protected route)
-│   └── assignment-03/   🟢  Postgres in Docker (repository swap, volume, compose)
+│   ├── assignment-03/   🟢  Postgres in Docker (repository swap, volume, compose)
+│   └── assignment-06/   🟢  Supabase Auth (signup/login/logout, JWT guard, Swagger)
 ├── week-03/
 │   └── assignment-05/   🟢  CRUD on SQLite — assignment 01's API, now it survives restart
 ├── week-04/
@@ -99,6 +100,7 @@ plain JS, so it has just `server.js` (+ `openapi.json`), `package.json`, and
 | 03  | 2    | Postgres in Docker     | Node   | 🟢     | [`week-02/assignment-03`](week-02/assignment-03/) |
 | 04  | 4    | Polite web scraper     | Python | 🟢     | [`week-04/assignment-04`](week-04/assignment-04/) |
 | 05  | 3    | CRUD API on SQLite     | Node   | 🟢     | [`week-03/assignment-05`](week-03/assignment-05/) |
+| 06  | 2    | Supabase Auth          | Node   | 🟢     | [`week-02/assignment-06`](week-02/assignment-06/) |
 
 Weeks 5–10 exist and are empty, ready to be filled.
 
